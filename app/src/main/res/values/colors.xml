@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bh_background">#05050A</color>
+    <color name="bh_surface">#0E0E16</color>
+    <color name="bh_accent">#7F5AF0</color>
+    <color name="bh_text">#E6E6F0</color>
+    <color name="bh_text_dim">#9B9BB0</color>
+    <color name="bh_border">#23232F</color>
+    <color name="bh_danger">#FF5470</color>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Blackhole</string>
+    <string name="url_bar_hint">Search or enter address</string>
+    <string name="new_tab">New tab</string>
+    <string name="close_tab">Close tab</string>
+    <string name="max_tabs_warning">Blackhole allows a maximum of 2 tabs. Close one to open another.</string>
+    <string name="insecure_connection">Insecure connection blocked</string>
+    <string name="cert_error">Certificate error — connection blocked for your safety</string>
+    <string name="reload">Reload</string>
+    <string name="go_back">Back</string>
+    <string name="go_forward">Forward</string>
+    <string name="go_home">Home</string>
+    <string name="clear_session">Clear session</string>
+    <string name="js_toggle">Allow JavaScript on this site</string>
+</resources>
