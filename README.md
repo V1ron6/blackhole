@@ -6,6 +6,10 @@ project, Gradle build) so you have full control over the source.
 
 **Debug APK location:** `app/build/outputs/apk/debug/app-debug.apk`
 
+This project is dedicated to the public domain under the CC0 1.0 Universal
+license. See `LICENSE` for details — you are free to copy, modify, distribute
+and sell the code as you wish.
+
 ## What's in here
 
 ```
