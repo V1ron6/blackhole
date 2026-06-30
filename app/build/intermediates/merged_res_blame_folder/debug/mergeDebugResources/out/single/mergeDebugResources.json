@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/layout_activity_main.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/layout_activity_settings.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/xml_network_security_config.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/layout_item_tab_pill.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/layout/item_tab_pill.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/xml_data_extraction_rules.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-debug-32:/drawable_tab_pill_bg.xml.flat",
+        "source": "com.blackhole.browser.app-main-34:/drawable/tab_pill_bg.xml"
+    }
+]

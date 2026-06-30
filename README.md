@@ -24,9 +24,9 @@ blackhole/
 
 ## How to build the APK
 
-You need Android Studio (or just the command line with JDK 17 + Android SDK
-installed) — I can't compile an APK directly in this chat since that needs
-the Android SDK/emulator toolchain.
+You need Android Studio, or the command line with JDK 21 + Android SDK
+installed. The repo now includes a Gradle wrapper, so you can build without a
+system-wide Gradle install.
 
 **Option A — Android Studio (easiest):**
 1. Download this project folder.
@@ -45,7 +45,9 @@ cd blackhole
 ./gradlew assembleRelease
 ```
 
-Then install with `adb install app-debug.apk` or copy it to your phone.
+If your Android SDK is not on the default path, set `ANDROID_SDK_ROOT` (or
+`ANDROID_HOME`) before running Gradle. The debug APK is written to
+`app/build/outputs/apk/debug/app-debug.apk`.
 
 ## Security design choices (the "hacker-worthy" part)
 

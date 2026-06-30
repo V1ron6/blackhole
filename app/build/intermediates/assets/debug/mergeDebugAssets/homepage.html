@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Blackhole</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 30%, #14141c 0%, #05050a 70%);
+    color: #e6e6f0;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo {
+    font-size: 42px;
+    letter-spacing: 4px;
+    margin-bottom: 4px;
+    color: #7f5af0;
+    text-shadow: 0 0 18px rgba(127,90,240,0.6);
+  }
+  .tagline {
+    font-size: 12px;
+    color: #6c6c7e;
+    margin-bottom: 36px;
+    letter-spacing: 2px;
+  }
+  form {
+    width: 86%;
+    max-width: 480px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 24px;
+    border: 1px solid #2a2a3a;
+    background: #0e0e16;
+    color: #e6e6f0;
+    font-size: 15px;
+    outline: none;
+  }
+  input[type="text"]:focus {
+    border-color: #7f5af0;
+    box-shadow: 0 0 0 2px rgba(127,90,240,0.25);
+  }
+  .links {
+    display: flex;
+    gap: 18px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .links a {
+    color: #9b9bb0;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 8px 14px;
+    border: 1px solid #23232f;
+    border-radius: 14px;
+  }
+  .links a:active { background: #1a1a26; }
+  .footer {
+    position: fixed;
+    bottom: 18px;
+    font-size: 11px;
+    color: #3f3f4d;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+  <div class="logo">BLACKHOLE</div>
+  <div class="tagline">NOTHING ESCAPES. NOTHING IS LOGGED.</div>
+  <form id="searchForm">
+    <input type="text" id="searchInput" placeholder="Search or enter address" autocomplete="off" autocorrect="off" spellcheck="false" autofocus>
+  </form>
+  <div class="links">
+    <a href="https://duckduckgo.com">DuckDuckGo</a>
+    <a href="https://protonmail.com">ProtonMail</a>
+    <a href="https://github.com">GitHub</a>
+    <a href="https://tryhackme.com">TryHackMe</a>
+  </div>
+  <div class="footer">PRIVATE MODE — ALWAYS ON</div>
+
+<script>
+  document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var q = document.getElementById('searchInput').value.trim();
+    if (!q) return;
+    window.location.href = 'blackhole://navigate?q=' + encodeURIComponent(q);
+  });
+</script>
+</body>
+</html>

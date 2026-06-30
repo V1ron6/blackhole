@@ -219,8 +219,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRequestLog() {
-        val active = tabManager.activeTab()
-        val entries = active?.requestLog?.toList().orEmpty()
+        val active = tabManager.activeTab() ?: return
+        val entries = active.requestLog.toList()
         if (entries.isEmpty()) {
             Toast.makeText(this, "No requests logged yet for this tab", Toast.LENGTH_SHORT).show()
             return
