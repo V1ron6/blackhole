@@ -1,6 +1,7 @@
 package com.blackhole.browser
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.net.http.SslError
 import android.webkit.SslErrorHandler
@@ -72,6 +73,21 @@ object SecureWebView {
                 request: WebResourceRequest
             ): Boolean {
                 val uri = request.url
+                if (uri.scheme == "blackhole") {
+                    when (uri.host) {
+                        "navigate" -> {
+                            val query = uri.getQueryParameter("q").orEmpty().trim()
+                            if (query.isNotBlank()) {
+                                view.loadUrl(resolveInput(query, appSettings.securityMode))
+                            }
+                        }
+
+                        "settings" -> {
+                            view.context.startActivity(Intent(view.context, SettingsActivity::class.java))
+                        }
+                    }
+                    return true
+                }
                 if (uri.scheme == "http" && appSettings.securityMode == SecurityMode.STRICT) {
                     onBlockedInsecure()
                     return true // block, do not navigate

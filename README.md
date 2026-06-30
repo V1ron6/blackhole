@@ -123,3 +123,9 @@ and keep just the domain per line, same format already used here.
   in-memory-only session list if useful).
 - Icon is a placeholder vector — swap `ic_launcher_foreground.xml` for real
   artwork whenever you want.
+
+---
+
+## Documentation
+
+A more detailed developer guide is available at `docs/DOCUMENTATION.md`. It describes the repository layout, important files to edit (homepage, WebView settings, adblock list), and step-by-step build and install instructions.
