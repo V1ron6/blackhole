@@ -4,6 +4,8 @@ A minimal, hardened Android browser. Two tabs max. Nothing is logged.
 Nothing is saved. Built as a native Kotlin + WebView app (Android Studio
 project, Gradle build) so you have full control over the source.
 
+**Debug APK location:** `app/build/outputs/apk/debug/app-debug.apk`
+
 ## What's in here
 
 ```
