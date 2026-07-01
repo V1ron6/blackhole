@@ -17,14 +17,13 @@ data class Tab(
 )
 
 /**
- * Manages the tab set. Blackhole intentionally caps the user at 2 concurrent
- * tabs - this is a deliberate design constraint (reduces memory/attack surface
- * and keeps the UI minimal), not a placeholder limit to raise later.
+ * Manages the tab set. Blackhole caps the user at 10 concurrent
+ * tabs to balance memory usage and attack surface with usability.
  */
 class TabManager {
 
     companion object {
-        const val MAX_TABS = 2
+        const val MAX_TABS = 10
     }
 
     private val tabs = mutableListOf<Tab>()

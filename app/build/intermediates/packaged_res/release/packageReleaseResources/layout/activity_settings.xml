@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bh_background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Security Mode"
+        android:textColor="@color/bh_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Strict blocks all http:// connections and never allows a TLS cert error through. CTF Mode allows http:// for lab/wargame targets - cert-error blocking still always applies in both modes."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp"
+        android:layout_marginBottom="14dp" />
+
+    <RadioGroup
+        android:id="@+id/securityModeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp">
+
+        <RadioButton
+            android:id="@+id/radioStrict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Strict (HTTPS only)"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+
+        <RadioButton
+            android:id="@+id/radioCtf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CTF Mode (allow http://)"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bh_border"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proxy / Tor Routing"
+        android:textColor="@color/bh_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Routes all browser traffic through a SOCKS proxy - e.g. Orbot/Tor. This is real proxy routing, not per-request IP rotation: sites see the proxy's exit IP, not yours, for as long as the circuit stays the same. Install and start Orbot first if using the Tor defaults below."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp"
+        android:layout_marginBottom="14dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="14dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Enable proxy routing"
+            android:textColor="@color/bh_text" />
+
+        <Switch
+            android:id="@+id/switchProxy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="14dp">
+
+        <Button
+            android:id="@+id/btnPresetTor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="Tor (Orbot)"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/bh_border"
+            android:textColor="@color/bh_text" />
+
+        <Button
+            android:id="@+id/btnPresetBurp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="Burp Suite"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/bh_border"
+            android:textColor="@color/bh_text" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Burp preset assumes the default proxy listener (127.0.0.1:8080, plain http). Start Burp's proxy listener first. To see decrypted HTTPS traffic, import Burp's CA cert (Proxy &gt; Import/export CA certificate) into Android's trusted certificates."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="11sp"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scheme"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <EditText
+        android:id="@+id/inputProxyScheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="socks5"
+        android:textColor="@color/bh_text"
+        android:textColorHint="@color/bh_text_dim"
+        android:inputType="text"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Host"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <EditText
+        android:id="@+id/inputProxyHost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="127.0.0.1"
+        android:textColor="@color/bh_text"
+        android:textColorHint="@color/bh_text_dim"
+        android:inputType="text"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Port"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <EditText
+        android:id="@+id/inputProxyPort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="9050"
+        android:textColor="@color/bh_text"
+        android:textColorHint="@color/bh_text_dim"
+        android:inputType="number"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:id="@+id/btnSaveSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save and Apply"
+        android:backgroundTint="@color/bh_accent" />
+
+</LinearLayout>
+</ScrollView>

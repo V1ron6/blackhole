@@ -1,0 +1,11 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "timeout": true,
+        "java": true,
+        "javac": true,
+        "/^sudo bash -c 'echo -e \"24333f8a63b6825ea9c5514f83c136424b3f5900\\\\n\" > /usr/lib/android-sdk/licenses/android-sdk-license' && sudo bash -c 'echo -e \"84831b9409646a918e30573bab4c9c91346d8abd\\\\n\" > /usr/lib/android-sdk/licenses/android-sdk-preview-license' && ls -la /usr/lib/android-sdk/licenses/$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

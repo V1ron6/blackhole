@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <color name="bh_accent">#7F5AF0</color>
+    <color name="bh_background">#05050A</color>
+    <color name="bh_border">#23232F</color>
+    <color name="bh_danger">#FF5470</color>
+    <color name="bh_surface">#0E0E16</color>
+    <color name="bh_text">#E6E6F0</color>
+    <color name="bh_text_dim">#9B9BB0</color>
+    <string name="app_name">Blackhole</string>
+    <string name="cert_error">Certificate error — connection blocked for your safety</string>
+    <string name="clear_session">Clear session</string>
+    <string name="close_tab">Close tab</string>
+    <string name="go_back">Back</string>
+    <string name="go_forward">Forward</string>
+    <string name="go_home">Home</string>
+    <string name="insecure_connection">Insecure connection blocked</string>
+    <string name="js_toggle">Allow JavaScript on this site</string>
+    <string name="max_tabs_warning">Blackhole allows a maximum of 2 tabs. Close one to open another.</string>
+    <string name="new_tab">New tab</string>
+    <string name="reload">Reload</string>
+    <string name="url_bar_hint">Search or enter address</string>
+    <style name="Theme.Blackhole" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/bh_accent</item>
+        <item name="android:colorBackground">@color/bh_background</item>
+        <item name="colorSurface">@color/bh_surface</item>
+        <item name="android:statusBarColor">@color/bh_background</item>
+        <item name="android:navigationBarColor">@color/bh_background</item>
+        <item name="android:windowLightStatusBar" ns1:targetApi="29">false</item>
+    </style>
+</resources>
