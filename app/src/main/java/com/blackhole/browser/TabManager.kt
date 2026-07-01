@@ -23,7 +23,7 @@ data class Tab(
 class TabManager {
 
     companion object {
-        const val MAX_TABS = 10
+        const val MAX_TABS = 4
     }
 
     private val tabs = mutableListOf<Tab>()
