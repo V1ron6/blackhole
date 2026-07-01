@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var adBlocker: AdBlocker
     private lateinit var settings: Settings
+    private lateinit var modeManager: ModeManager
+    private lateinit var downloadManager: DownloadManager
     private val tabManager = TabManager()
     private val HOME_URL = "file:///android_asset/homepage.html"
     private val MAX_LOG_ENTRIES = 200
@@ -34,7 +36,20 @@ class MainActivity : AppCompatActivity() {
 
         adBlocker = AdBlocker(this)
         settings = Settings(this)
+        modeManager = ModeManager(this, settings)
+        downloadManager = DownloadManager(this, settings)
         ProxyManager.applyFromSettings(settings)
+        
+        // Clean up expired downloads on app start
+        downloadManager.cleanupExpiredDownloads()
+        
+        // Setup mode indicator listener
+        modeManager.addModeListener { mode ->
+            updateModeIndicator(mode)
+        }
+        
+        // Initial mode indicator update
+        updateModeIndicator(modeManager.getCurrentMode())
 
         // Always-private: wipe any leftover cookies/cache from a prior process at launch.
         CookieManager.getInstance().removeAllCookies(null)
@@ -259,9 +274,19 @@ class MainActivity : AppCompatActivity() {
         binding.webViewContainer.removeAllViews()
         CookieManager.getInstance().removeAllCookies(null)
         clearCache()
+        downloadManager.clearAll()
+        modeManager.resetToBasicMode()
         renderTabIndicators()
         openNewTab()
-        Toast.makeText(this, "Session cleared", Toast.LENGTH_SHORT).show()
+        NotificationManager.showToast(this, "Session cleared and reset to Basic mode")
+    }
+
+    private fun updateModeIndicator(mode: BrowserMode) {
+        // Update UI to show current mode at the top
+        // This would be implemented in the layout with a mode badge/indicator
+        // For now, we'll show it in the title or a dedicated view
+        val modeIndicator = "Mode: ${mode.displayName}"
+        // Could update a TextView in the layout for mode display
     }
 
     // --- Lifecycle: enforce "always private, nothing survives exit" -------
