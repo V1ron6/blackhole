@@ -51,12 +51,24 @@ class Settings(context: Context) {
         get() = prefs.getString(KEY_PROXY_SCHEME, DEFAULT_PROXY_SCHEME) ?: DEFAULT_PROXY_SCHEME
         set(value) = prefs.edit().putString(KEY_PROXY_SCHEME, value).apply()
 
+    /** Current browser mode: BASIC (default), INTERMEDIATE, ADVANCE, BYTEBANDIT. */
+    var browserMode: BrowserMode
+        get() = BrowserMode.fromString(prefs.getString(KEY_BROWSER_MODE, BrowserMode.BASIC.name))
+        set(value) = prefs.edit().putString(KEY_BROWSER_MODE, value.name).apply()
+
+    /** Download file retention time in hours (default: 24). */
+    var downloadRetentionHours: Int
+        get() = prefs.getInt(KEY_DOWNLOAD_RETENTION_HOURS, DEFAULT_DOWNLOAD_RETENTION_HOURS)
+        set(value) = prefs.edit().putInt(KEY_DOWNLOAD_RETENTION_HOURS, value).apply()
+
     companion object {
         private const val KEY_SECURITY_MODE = "security_mode"
         private const val KEY_PROXY_ENABLED = "proxy_enabled"
         private const val KEY_PROXY_HOST = "proxy_host"
         private const val KEY_PROXY_PORT = "proxy_port"
         private const val KEY_PROXY_SCHEME = "proxy_scheme"
+        private const val KEY_BROWSER_MODE = "browser_mode"
+        private const val KEY_DOWNLOAD_RETENTION_HOURS = "download_retention_hours"
 
         private const val MODE_STRICT = "strict"
         private const val MODE_CTF = "ctf"
@@ -65,5 +77,6 @@ class Settings(context: Context) {
         const val DEFAULT_PROXY_HOST = "127.0.0.1"
         const val DEFAULT_PROXY_PORT = "9050"
         const val DEFAULT_PROXY_SCHEME = "socks5"
+        const val DEFAULT_DOWNLOAD_RETENTION_HOURS = 24
     }
 }
