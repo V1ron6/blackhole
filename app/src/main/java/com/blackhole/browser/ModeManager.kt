@@ -55,6 +55,19 @@ class ModeManager(private val activity: Activity, private val settings: Settings
         setMode(BrowserMode.BASIC)
     }
 
+    /**
+     * Re-read the mode from Settings and notify listeners if it changed.
+     * SettingsActivity writes the mode directly to Settings (it doesn't hold
+     * a ModeManager instance), so call this on resume to pick up the change.
+     */
+    fun syncFromSettings() {
+        val stored = settings.browserMode
+        if (stored != currentMode) {
+            currentMode = stored
+            notifyModeChanged(stored)
+        }
+    }
+
     enum class ModeFeature {
         POSTMAN_REQUESTS,
         JS_CONSOLE,

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.webkit.CookieManager
+import android.webkit.URLUtil
 import android.webkit.WebView
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
@@ -13,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.blackhole.browser.databinding.ActivityMainBinding
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Collections
 import java.util.Date
@@ -50,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         
         // Initial mode indicator update
         updateModeIndicator(modeManager.getCurrentMode())
+        binding.modeIndicatorBar.setOnClickListener {
+            startActivity(android.content.Intent(this, SettingsActivity::class.java))
+        }
 
         // Always-private: wipe any leftover cookies/cache from a prior process at launch.
         CookieManager.getInstance().removeAllCookies(null)
@@ -95,6 +101,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         )
+        webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
+            startDownload(url, userAgent, contentDisposition, mimeType)
+        }
         binding.webViewContainer.addView(webView)
         val tab = tabManager.addTab(webView, requestLog)
         if (tab != null) {
@@ -102,6 +111,54 @@ class MainActivity : AppCompatActivity() {
             renderTabIndicators()
             showOnlyActiveWebView()
         }
+    }
+
+    // --- Downloads -----------------------------------------------------
+
+    private fun startDownload(url: String, userAgent: String?, contentDisposition: String?, mimeType: String?) {
+        val fileName = URLUtil.guessFileName(url, contentDisposition, mimeType)
+        NotificationManager.showToast(this, "Downloading $fileName\u2026")
+        Thread {
+            try {
+                val connection = URL(url).openConnection() as HttpURLConnection
+                userAgent?.let { connection.setRequestProperty("User-Agent", it) }
+                connection.connectTimeout = 15_000
+                connection.readTimeout = 15_000
+                connection.connect()
+
+                if (connection.responseCode !in 200..299) {
+                    throw java.io.IOException("HTTP ${connection.responseCode}")
+                }
+
+                val maxBytes = DownloadManager.MAX_FILE_SIZE
+                val data = connection.inputStream.use { input ->
+                    val buffer = java.io.ByteArrayOutputStream()
+                    val chunk = ByteArray(8192)
+                    var total = 0
+                    var read: Int
+                    while (input.read(chunk).also { read = it } != -1) {
+                        total += read
+                        if (total > maxBytes) throw java.io.IOException("File exceeds ${maxBytes / (1024 * 1024)}MB limit")
+                        buffer.write(chunk, 0, read)
+                    }
+                    buffer.toByteArray()
+                }
+                connection.disconnect()
+
+                val saved = downloadManager.saveDownload(fileName, data)
+                runOnUiThread {
+                    if (saved != null) {
+                        NotificationManager.showToast(this, "Saved $fileName to blackhole/downloads")
+                    } else {
+                        NotificationManager.showToast(this, "Failed to save $fileName")
+                    }
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    NotificationManager.showToast(this, "Download failed: ${e.message}")
+                }
+            }
+        }.start()
     }
 
     private fun isActiveWebView(webView: WebView): Boolean =
@@ -218,6 +275,9 @@ class MainActivity : AppCompatActivity() {
         binding.btnRequestLog.setOnClickListener {
             showRequestLog()
         }
+        binding.btnTools.setOnClickListener {
+            showToolsMenu()
+        }
     }
 
     private fun toggleJsForActiveTab() {
@@ -231,6 +291,41 @@ class MainActivity : AppCompatActivity() {
             Toast.LENGTH_SHORT
         ).show()
         active.webView.reload()
+    }
+
+    private fun showToolsMenu() {
+        val available = mutableListOf<Pair<String, () -> Unit>>()
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.POSTMAN_REQUESTS)) {
+            available.add("Postman Request" to { PostmanRequestDialog.show(this) })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JS_CONSOLE)) {
+            available.add("JavaScript Console" to {
+                JavaScriptConsole.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SSH_TERMINAL)) {
+            available.add("SSH Terminal" to { SSHTerminal.show(this) })
+        }
+
+        if (available.isEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("Tools")
+                .setMessage("No tools available in Basic mode. Switch to Intermediate, Advance, or ByteBandit mode in Settings to unlock them.")
+                .setPositiveButton("Open Settings") { _, _ ->
+                    startActivity(android.content.Intent(this, SettingsActivity::class.java))
+                }
+                .setNegativeButton("Close", null)
+                .show()
+            return
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Tools (${modeManager.getCurrentMode().displayName} mode)")
+            .setItems(available.map { it.first }.toTypedArray()) { _, index ->
+                available[index].second()
+            }
+            .setNegativeButton("Close", null)
+            .show()
     }
 
     private fun showRequestLog() {
@@ -282,11 +377,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateModeIndicator(mode: BrowserMode) {
-        // Update UI to show current mode at the top
-        // This would be implemented in the layout with a mode badge/indicator
-        // For now, we'll show it in the title or a dedicated view
-        val modeIndicator = "Mode: ${mode.displayName}"
-        // Could update a TextView in the layout for mode display
+        binding.modeIndicatorText.text = "Mode: ${mode.displayName}"
+        val colorRes = when (mode) {
+            BrowserMode.BASIC -> R.color.bh_text_dim
+            BrowserMode.INTERMEDIATE -> R.color.bh_accent
+            BrowserMode.ADVANCE -> R.color.bh_warning
+            BrowserMode.BYTEBANDIT -> R.color.bh_danger
+        }
+        binding.modeIndicatorText.setTextColor(getColor(colorRes))
     }
 
     // --- Lifecycle: enforce "always private, nothing survives exit" -------
@@ -294,6 +392,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         ProxyManager.applyFromSettings(settings)
+        modeManager.syncFromSettings()
     }
 
     override fun onDestroy() {
