@@ -60,6 +60,69 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Browser Mode"
+        android:textColor="@color/bh_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Each mode unlocks more tools on top of the last. Resets to Basic whenever the session is cleared."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp"
+        android:layout_marginBottom="14dp" />
+
+    <RadioGroup
+        android:id="@+id/browserModeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="24dp">
+
+        <RadioButton
+            android:id="@+id/radioModeBasic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Basic - standard browser"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+
+        <RadioButton
+            android:id="@+id/radioModeIntermediate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Intermediate - Postman-like requests"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+
+        <RadioButton
+            android:id="@+id/radioModeAdvance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Advance - JS console &amp; inspector"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+
+        <RadioButton
+            android:id="@+id/radioModeByteBandit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ByteBandit - SSH &amp; advanced pentesting tools"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bh_border"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Proxy / Tor Routing"
         android:textColor="@color/bh_text"
         android:textSize="16sp"
@@ -174,6 +237,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="9050"
+        android:textColor="@color/bh_text"
+        android:textColorHint="@color/bh_text_dim"
+        android:inputType="number"
+        android:layout_marginBottom="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bh_border"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Downloads"
+        android:textColor="@color/bh_text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Files saved to the blackhole/downloads folder are deleted automatically after this many hours, independent of session clearing."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retention (hours)"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <EditText
+        android:id="@+id/inputDownloadRetention"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="24"
         android:textColor="@color/bh_text"
         android:textColorHint="@color/bh_text_dim"
         android:inputType="number"

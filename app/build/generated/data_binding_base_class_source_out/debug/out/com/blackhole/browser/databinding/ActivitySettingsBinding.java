@@ -24,6 +24,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
   private final ScrollView rootView;
 
   @NonNull
+  public final RadioGroup browserModeGroup;
+
+  @NonNull
   public final Button btnPresetBurp;
 
   @NonNull
@@ -31,6 +34,9 @@ public final class ActivitySettingsBinding implements ViewBinding {
 
   @NonNull
   public final Button btnSaveSettings;
+
+  @NonNull
+  public final EditText inputDownloadRetention;
 
   @NonNull
   public final EditText inputProxyHost;
@@ -45,6 +51,18 @@ public final class ActivitySettingsBinding implements ViewBinding {
   public final RadioButton radioCtf;
 
   @NonNull
+  public final RadioButton radioModeAdvance;
+
+  @NonNull
+  public final RadioButton radioModeBasic;
+
+  @NonNull
+  public final RadioButton radioModeByteBandit;
+
+  @NonNull
+  public final RadioButton radioModeIntermediate;
+
+  @NonNull
   public final RadioButton radioStrict;
 
   @NonNull
@@ -53,20 +71,29 @@ public final class ActivitySettingsBinding implements ViewBinding {
   @NonNull
   public final Switch switchProxy;
 
-  private ActivitySettingsBinding(@NonNull ScrollView rootView, @NonNull Button btnPresetBurp,
+  private ActivitySettingsBinding(@NonNull ScrollView rootView,
+      @NonNull RadioGroup browserModeGroup, @NonNull Button btnPresetBurp,
       @NonNull Button btnPresetTor, @NonNull Button btnSaveSettings,
-      @NonNull EditText inputProxyHost, @NonNull EditText inputProxyPort,
-      @NonNull EditText inputProxyScheme, @NonNull RadioButton radioCtf,
-      @NonNull RadioButton radioStrict, @NonNull RadioGroup securityModeGroup,
-      @NonNull Switch switchProxy) {
+      @NonNull EditText inputDownloadRetention, @NonNull EditText inputProxyHost,
+      @NonNull EditText inputProxyPort, @NonNull EditText inputProxyScheme,
+      @NonNull RadioButton radioCtf, @NonNull RadioButton radioModeAdvance,
+      @NonNull RadioButton radioModeBasic, @NonNull RadioButton radioModeByteBandit,
+      @NonNull RadioButton radioModeIntermediate, @NonNull RadioButton radioStrict,
+      @NonNull RadioGroup securityModeGroup, @NonNull Switch switchProxy) {
     this.rootView = rootView;
+    this.browserModeGroup = browserModeGroup;
     this.btnPresetBurp = btnPresetBurp;
     this.btnPresetTor = btnPresetTor;
     this.btnSaveSettings = btnSaveSettings;
+    this.inputDownloadRetention = inputDownloadRetention;
     this.inputProxyHost = inputProxyHost;
     this.inputProxyPort = inputProxyPort;
     this.inputProxyScheme = inputProxyScheme;
     this.radioCtf = radioCtf;
+    this.radioModeAdvance = radioModeAdvance;
+    this.radioModeBasic = radioModeBasic;
+    this.radioModeByteBandit = radioModeByteBandit;
+    this.radioModeIntermediate = radioModeIntermediate;
     this.radioStrict = radioStrict;
     this.securityModeGroup = securityModeGroup;
     this.switchProxy = switchProxy;
@@ -99,6 +126,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.browserModeGroup;
+      RadioGroup browserModeGroup = ViewBindings.findChildViewById(rootView, id);
+      if (browserModeGroup == null) {
+        break missingId;
+      }
+
       id = R.id.btnPresetBurp;
       Button btnPresetBurp = ViewBindings.findChildViewById(rootView, id);
       if (btnPresetBurp == null) {
@@ -114,6 +147,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
       id = R.id.btnSaveSettings;
       Button btnSaveSettings = ViewBindings.findChildViewById(rootView, id);
       if (btnSaveSettings == null) {
+        break missingId;
+      }
+
+      id = R.id.inputDownloadRetention;
+      EditText inputDownloadRetention = ViewBindings.findChildViewById(rootView, id);
+      if (inputDownloadRetention == null) {
         break missingId;
       }
 
@@ -141,6 +180,30 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.radioModeAdvance;
+      RadioButton radioModeAdvance = ViewBindings.findChildViewById(rootView, id);
+      if (radioModeAdvance == null) {
+        break missingId;
+      }
+
+      id = R.id.radioModeBasic;
+      RadioButton radioModeBasic = ViewBindings.findChildViewById(rootView, id);
+      if (radioModeBasic == null) {
+        break missingId;
+      }
+
+      id = R.id.radioModeByteBandit;
+      RadioButton radioModeByteBandit = ViewBindings.findChildViewById(rootView, id);
+      if (radioModeByteBandit == null) {
+        break missingId;
+      }
+
+      id = R.id.radioModeIntermediate;
+      RadioButton radioModeIntermediate = ViewBindings.findChildViewById(rootView, id);
+      if (radioModeIntermediate == null) {
+        break missingId;
+      }
+
       id = R.id.radioStrict;
       RadioButton radioStrict = ViewBindings.findChildViewById(rootView, id);
       if (radioStrict == null) {
@@ -159,9 +222,10 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivitySettingsBinding((ScrollView) rootView, btnPresetBurp, btnPresetTor,
-          btnSaveSettings, inputProxyHost, inputProxyPort, inputProxyScheme, radioCtf, radioStrict,
-          securityModeGroup, switchProxy);
+      return new ActivitySettingsBinding((ScrollView) rootView, browserModeGroup, btnPresetBurp,
+          btnPresetTor, btnSaveSettings, inputDownloadRetention, inputProxyHost, inputProxyPort,
+          inputProxyScheme, radioCtf, radioModeAdvance, radioModeBasic, radioModeByteBandit,
+          radioModeIntermediate, radioStrict, securityModeGroup, switchProxy);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

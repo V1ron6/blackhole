@@ -7,6 +7,7 @@
     <color name="bh_surface">#0E0E16</color>
     <color name="bh_text">#E6E6F0</color>
     <color name="bh_text_dim">#9B9BB0</color>
+    <color name="bh_warning">#F5A623</color>
     <string name="app_name">Blackhole</string>
     <string name="cert_error">Certificate error — connection blocked for your safety</string>
     <string name="clear_session">Clear session</string>
@@ -17,6 +18,7 @@
     <string name="insecure_connection">Insecure connection blocked</string>
     <string name="js_toggle">Allow JavaScript on this site</string>
     <string name="max_tabs_warning">Blackhole allows a maximum of 2 tabs. Close one to open another.</string>
+    <string name="mode_indicator_description">Current browser mode. Tap to change in Settings.</string>
     <string name="new_tab">New tab</string>
     <string name="reload">Reload</string>
     <string name="url_bar_hint">Search or enter address</string>

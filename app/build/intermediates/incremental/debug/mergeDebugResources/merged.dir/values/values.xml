@@ -646,6 +646,7 @@
     <color name="bh_surface">#0E0E16</color>
     <color name="bh_text">#E6E6F0</color>
     <color name="bh_text_dim">#9B9BB0</color>
+    <color name="bh_warning">#F5A623</color>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
     <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>
@@ -2058,6 +2059,7 @@
     <string description="Title for the dialog with a time picker. [CHAR_LIMIT=32]" name="material_timepicker_select_time">Select time</string>
     <string name="material_timepicker_text_input_mode_description">Switch to text input mode for the time input.</string>
     <string name="max_tabs_warning">Blackhole allows a maximum of 2 tabs. Close one to open another.</string>
+    <string name="mode_indicator_description">Current browser mode. Tap to change in Settings.</string>
     <string description="Content description for new notification (no number count) [CHAR_LIMIT=NONE]" name="mtrl_badge_numberless_content_description">New notification</string>
     <string name="mtrl_checkbox_button_icon_path_checked" translatable="false">M14,18.2 11.4,15.6 10,17 14,21 22,13 20.6,11.6z</string>
     <string name="mtrl_checkbox_button_icon_path_group_name" translatable="false">icon</string>

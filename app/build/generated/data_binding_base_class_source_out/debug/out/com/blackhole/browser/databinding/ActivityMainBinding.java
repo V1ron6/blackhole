@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -49,6 +50,15 @@ public final class ActivityMainBinding implements ViewBinding {
   public final ImageButton btnSettings;
 
   @NonNull
+  public final ImageButton btnTools;
+
+  @NonNull
+  public final LinearLayout modeIndicatorBar;
+
+  @NonNull
+  public final TextView modeIndicatorText;
+
+  @NonNull
   public final LinearLayout tabIndicatorContainer;
 
   @NonNull
@@ -62,8 +72,9 @@ public final class ActivityMainBinding implements ViewBinding {
       @NonNull ImageButton btnHome, @NonNull ImageButton btnJsToggle,
       @NonNull ImageButton btnNewTab, @NonNull ImageButton btnReload,
       @NonNull ImageButton btnRequestLog, @NonNull ImageButton btnSettings,
-      @NonNull LinearLayout tabIndicatorContainer, @NonNull EditText urlBar,
-      @NonNull FrameLayout webViewContainer) {
+      @NonNull ImageButton btnTools, @NonNull LinearLayout modeIndicatorBar,
+      @NonNull TextView modeIndicatorText, @NonNull LinearLayout tabIndicatorContainer,
+      @NonNull EditText urlBar, @NonNull FrameLayout webViewContainer) {
     this.rootView = rootView;
     this.btnBack = btnBack;
     this.btnClearSession = btnClearSession;
@@ -74,6 +85,9 @@ public final class ActivityMainBinding implements ViewBinding {
     this.btnReload = btnReload;
     this.btnRequestLog = btnRequestLog;
     this.btnSettings = btnSettings;
+    this.btnTools = btnTools;
+    this.modeIndicatorBar = modeIndicatorBar;
+    this.modeIndicatorText = modeIndicatorText;
     this.tabIndicatorContainer = tabIndicatorContainer;
     this.urlBar = urlBar;
     this.webViewContainer = webViewContainer;
@@ -160,6 +174,24 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnTools;
+      ImageButton btnTools = ViewBindings.findChildViewById(rootView, id);
+      if (btnTools == null) {
+        break missingId;
+      }
+
+      id = R.id.modeIndicatorBar;
+      LinearLayout modeIndicatorBar = ViewBindings.findChildViewById(rootView, id);
+      if (modeIndicatorBar == null) {
+        break missingId;
+      }
+
+      id = R.id.modeIndicatorText;
+      TextView modeIndicatorText = ViewBindings.findChildViewById(rootView, id);
+      if (modeIndicatorText == null) {
+        break missingId;
+      }
+
       id = R.id.tabIndicatorContainer;
       LinearLayout tabIndicatorContainer = ViewBindings.findChildViewById(rootView, id);
       if (tabIndicatorContainer == null) {
@@ -179,8 +211,8 @@ public final class ActivityMainBinding implements ViewBinding {
       }
 
       return new ActivityMainBinding((LinearLayout) rootView, btnBack, btnClearSession, btnForward,
-          btnHome, btnJsToggle, btnNewTab, btnReload, btnRequestLog, btnSettings,
-          tabIndicatorContainer, urlBar, webViewContainer);
+          btnHome, btnJsToggle, btnNewTab, btnReload, btnRequestLog, btnSettings, btnTools,
+          modeIndicatorBar, modeIndicatorText, tabIndicatorContainer, urlBar, webViewContainer);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

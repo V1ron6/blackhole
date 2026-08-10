@@ -48,4 +48,5 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.webkit:webkit:1.11.0")
+    implementation("com.hierynomus:sshj:0.38.0")
 }

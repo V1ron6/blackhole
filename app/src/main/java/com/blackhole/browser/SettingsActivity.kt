@@ -26,6 +26,14 @@ class SettingsActivity : AppCompatActivity() {
         binding.inputProxyHost.setText(settings.proxyHost)
         binding.inputProxyPort.setText(settings.proxyPort)
 
+        when (settings.browserMode) {
+            BrowserMode.BASIC -> binding.radioModeBasic.isChecked = true
+            BrowserMode.INTERMEDIATE -> binding.radioModeIntermediate.isChecked = true
+            BrowserMode.ADVANCE -> binding.radioModeAdvance.isChecked = true
+            BrowserMode.BYTEBANDIT -> binding.radioModeByteBandit.isChecked = true
+        }
+        binding.inputDownloadRetention.setText(settings.downloadRetentionHours.toString())
+
         if (!ProxyManager.isSupported()) {
             binding.switchProxy.isEnabled = false
             Toast.makeText(
@@ -57,6 +65,17 @@ class SettingsActivity : AppCompatActivity() {
     private fun saveAndApply() {
         settings.securityMode =
             if (binding.radioCtf.isChecked) SecurityMode.CTF else SecurityMode.STRICT
+
+        settings.browserMode = when (binding.browserModeGroup.checkedRadioButtonId) {
+            binding.radioModeIntermediate.id -> BrowserMode.INTERMEDIATE
+            binding.radioModeAdvance.id -> BrowserMode.ADVANCE
+            binding.radioModeByteBandit.id -> BrowserMode.BYTEBANDIT
+            else -> BrowserMode.BASIC
+        }
+        settings.downloadRetentionHours =
+            binding.inputDownloadRetention.text.toString().toIntOrNull()
+                ?.coerceAtLeast(1)
+                ?: Settings.DEFAULT_DOWNLOAD_RETENTION_HOURS
 
         settings.proxyEnabled = binding.switchProxy.isChecked
         settings.proxyScheme = binding.inputProxyScheme.text.toString().ifBlank {
