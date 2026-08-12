@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bh_background"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resizes the WebView within its container to preview a breakpoint. Not a true device emulator (no DPR/touch simulation change) - just a size check."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="11sp"
+        android:layout_marginBottom="14dp" />
+
+    <Button
+        android:id="@+id/btnViewportMobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mobile - 375 \u00d7 667"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_border"
+        android:textColor="@color/bh_text"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnViewportMobileL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mobile L - 414 \u00d7 896"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_border"
+        android:textColor="@color/bh_text"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnViewportTablet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tablet - 768 \u00d7 1024"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_border"
+        android:textColor="@color/bh_text"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnViewportDesktop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Desktop - 1366 \u00d7 768"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_border"
+        android:textColor="@color/bh_text"
+        android:layout_marginBottom="14dp" />
+
+    <Button
+        android:id="@+id/btnViewportReset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset to Full Size"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_accent" />
+
+</LinearLayout>
