@@ -61,6 +61,18 @@ class Settings(context: Context) {
         get() = prefs.getInt(KEY_DOWNLOAD_RETENTION_HOURS, DEFAULT_DOWNLOAD_RETENTION_HOURS)
         set(value) = prefs.edit().putInt(KEY_DOWNLOAD_RETENTION_HOURS, value).apply()
 
+    /**
+     * Off by default - Blackhole stays fully private (no cookies, no
+     * localStorage/sessionStorage) unless this is explicitly turned on, e.g.
+     * to stay logged into a CTF target. MainActivity resets this back to
+     * false (and wipes whatever was stored) every time Clear Session runs,
+     * so persistence never silently survives past the session you turned
+     * it on for.
+     */
+    var sessionPersistenceEnabled: Boolean
+        get() = prefs.getBoolean(KEY_SESSION_PERSISTENCE, false)
+        set(value) = prefs.edit().putBoolean(KEY_SESSION_PERSISTENCE, value).apply()
+
     companion object {
         private const val KEY_SECURITY_MODE = "security_mode"
         private const val KEY_PROXY_ENABLED = "proxy_enabled"
@@ -69,6 +81,7 @@ class Settings(context: Context) {
         private const val KEY_PROXY_SCHEME = "proxy_scheme"
         private const val KEY_BROWSER_MODE = "browser_mode"
         private const val KEY_DOWNLOAD_RETENTION_HOURS = "download_retention_hours"
+        private const val KEY_SESSION_PERSISTENCE = "session_persistence_enabled"
 
         private const val MODE_STRICT = "strict"
         private const val MODE_CTF = "ctf"

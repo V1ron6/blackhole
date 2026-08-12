@@ -111,32 +111,20 @@
   .links a:active { background: #1a1a26; }
   .settings-panel {
     margin-top: 18px;
-    padding: 16px;
-    text-align: left;
+    padding: 14px 18px;
+    text-align: center;
   }
-  .settings-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .setting-card {
-    display: block;
-    padding: 12px 14px;
-    border-radius: 16px;
-    text-decoration: none;
+  .settings-panel a {
     color: #ececf5;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid #262636;
-  }
-  .setting-card strong {
-    display: block;
-    margin-bottom: 4px;
+    text-decoration: none;
     font-size: 13px;
+    letter-spacing: 0.5px;
   }
-  .setting-card span {
+  .settings-panel span {
+    display: block;
     color: #8b8b9c;
     font-size: 11px;
-    line-height: 1.4;
+    margin-top: 4px;
   }
   .page-note {
     margin-top: 18px;
@@ -175,28 +163,11 @@
     </div>
 
     <div class="settings-panel">
-      <div class="section-label">More settings</div>
-      <div class="settings-grid">
-        <a class="setting-card" href="blackhole://settings">
-          <strong>Open settings</strong>
-          <span>Security mode and proxy controls live here.</span>
-        </a>
-        <a class="setting-card" href="blackhole://settings">
-          <strong>Proxy routing</strong>
-          <span>Quick access to Tor or Burp presets.</span>
-        </a>
-        <a class="setting-card" href="blackhole://settings">
-          <strong>Security mode</strong>
-          <span>Switch between Strict and CTF browsing.</span>
-        </a>
-        <a class="setting-card" href="blackhole://settings">
-          <strong>Session controls</strong>
-          <span>Use the browser toolbar for tabs, logs, and clearing.</span>
-        </a>
-      </div>
+      <a href="blackhole://settings">Open Settings</a>
+      <span>Security mode, proxy routing, and browser mode all live there.</span>
     </div>
 
-    <div class="footer">PRIVATE MODE — ALWAYS ON • BUILT BY ELVIN SLY OWUSU</div>
+    <div class="footer">PRIVATE MODE — ALWAYS ON • BUILT BY BYTEBANDIT</div>
   </div>
 
 <script>

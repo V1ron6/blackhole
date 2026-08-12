@@ -14,4 +14,5 @@
     <string name="clear_session">Clear session</string>
     <string name="js_toggle">Allow JavaScript on this site</string>
     <string name="mode_indicator_description">Current browser mode. Tap to change in Settings.</string>
+    <string name="session_badge_description">Session persistence is on - cookies and local storage are being kept. Tap to change in Settings.</string>
 </resources>

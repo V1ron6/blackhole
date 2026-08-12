@@ -8,4 +8,5 @@
     <color name="bh_border">#23232F</color>
     <color name="bh_danger">#FF5470</color>
     <color name="bh_warning">#F5A623</color>
+    <color name="bh_success">#2CB67D</color>
 </resources>

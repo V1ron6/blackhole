@@ -13,6 +13,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@color/bh_surface"
+        android:elevation="4dp"
         android:paddingHorizontal="8dp"
         android:paddingVertical="6dp">
 
@@ -28,10 +29,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginHorizontal="6dp"
-            android:background="@android:color/transparent"
+            android:background="@drawable/bg_url_bar"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
             android:hint="@string/url_bar_hint"
             android:textColor="@color/bh_text"
             android:textColorHint="@color/bh_text_dim"
+            android:textSize="14sp"
             android:singleLine="true"
             android:imeOptions="actionGo"
             android:inputType="textUri"
@@ -56,29 +60,67 @@
             app:tint="@color/bh_text_dim" />
     </LinearLayout>
 
-    <!-- Mode indicator: shows current browser mode, tap to change it in Settings -->
+    <!-- Status row: mode indicator + session-persistence badge (badge hidden unless active) -->
     <LinearLayout
-        android:id="@+id/modeIndicatorBar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@color/bh_background"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="4dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:contentDescription="@string/mode_indicator_description">
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp">
 
-        <TextView
-            android:id="@+id/modeIndicatorText"
+        <LinearLayout
+            android:id="@+id/modeIndicatorBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mode: Basic"
-            android:textColor="@color/bh_text_dim"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_mode_pill"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="5dp"
+            android:layout_marginEnd="6dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/mode_indicator_description">
+
+            <TextView
+                android:id="@+id/modeIndicatorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mode: Basic"
+                android:textColor="@color/bh_text_dim"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.03" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sessionBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_mode_pill"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="5dp"
+            android:visibility="gone"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/session_badge_description">
+
+            <TextView
+                android:id="@+id/sessionBadgeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="\u26A0 Session: cookies ON"
+                android:textColor="@color/bh_warning"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.03" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- WebView container - holds up to 2 WebViews, only active one visible -->
@@ -94,6 +136,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/bh_surface"
+        android:elevation="4dp"
         android:paddingVertical="4dp">
 
         <ImageButton

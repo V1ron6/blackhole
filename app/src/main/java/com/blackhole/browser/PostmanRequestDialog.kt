@@ -24,9 +24,9 @@ object PostmanRequestDialog {
 
         binding.methodSpinner.adapter = ArrayAdapter(
             context,
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_item_dark,
             HttpMethod.values().map { it.displayName }
-        )
+        ).apply { setDropDownViewResource(R.layout.spinner_dropdown_item_dark) }
 
         val dialog = AlertDialog.Builder(context)
             .setTitle("Postman Request")

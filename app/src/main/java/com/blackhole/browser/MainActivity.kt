@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.webkit.CookieManager
 import android.webkit.URLUtil
+import android.webkit.WebStorage
 import android.webkit.WebView
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
@@ -57,6 +58,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(android.content.Intent(this, SettingsActivity::class.java))
         }
 
+        updateSessionBadge()
+        binding.sessionBadge.setOnClickListener {
+            startActivity(android.content.Intent(this, SettingsActivity::class.java))
+        }
+
         // Always-private: wipe any leftover cookies/cache from a prior process at launch.
         CookieManager.getInstance().removeAllCookies(null)
         clearCache()
@@ -93,8 +99,8 @@ class MainActivity : AppCompatActivity() {
             onBlockedInsecure = {
                 Toast.makeText(this, getString(R.string.insecure_connection), Toast.LENGTH_SHORT).show()
             },
-            onRequestLogged = { host, blocked ->
-                requestLog.add(0, RequestLogEntry(host, blocked, System.currentTimeMillis()))
+            onRequestLogged = { host, url, method, blocked ->
+                requestLog.add(0, RequestLogEntry(host, url, method, blocked, System.currentTimeMillis()))
                 // Cap log size per tab so a chatty page can't grow this unbounded.
                 if (requestLog.size > MAX_LOG_ENTRIES) {
                     requestLog.removeAt(requestLog.size - 1)
@@ -145,10 +151,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 connection.disconnect()
 
-                val saved = downloadManager.saveDownload(fileName, data)
+                val saved = downloadManager.saveDownload(fileName, data, mimeType)
                 runOnUiThread {
                     if (saved != null) {
-                        NotificationManager.showToast(this, "Saved $fileName to blackhole/downloads")
+                        NotificationManager.showToast(this, "Saved $fileName to Downloads/Blackhole")
                     } else {
                         NotificationManager.showToast(this, "Failed to save $fileName")
                     }
@@ -303,6 +309,119 @@ class MainActivity : AppCompatActivity() {
                 JavaScriptConsole.show(this, tabManager.activeTab()?.webView)
             })
         }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SECURITY_SCANNER)) {
+            available.add("Security Headers" to {
+                SecurityHeaderScanner.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.COOKIE_INSPECTOR)) {
+            available.add("Cookie Inspector" to {
+                CookieInspector.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.INSPECTOR)) {
+            available.add("TLS Certificate" to {
+                TlsInspector.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DATA_TOOLKIT)) {
+            available.add("Data Toolkit" to { DataToolkit.show(this) })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JWT_DECODER)) {
+            available.add("JWT Decoder" to { JwtDecoder.show(this) })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JSON_FORMATTER)) {
+            available.add("JSON Formatter" to { JsonFormatter.show(this) })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.REGEX_TESTER)) {
+            available.add("Regex Tester" to { RegexTester.show(this) })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.STORAGE_INSPECTOR)) {
+            available.add("Storage Inspector" to {
+                StorageInspector.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.USER_AGENT_SWITCHER)) {
+            available.add("User-Agent Switcher" to {
+                UserAgentSwitcher.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.ROBOTS_FETCH)) {
+            available.add("robots.txt / sitemap.xml" to {
+                RobotsFetch.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DIFF_VIEWER)) {
+            available.add("Diff Viewer" to { DiffViewer.show(this) })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.REQUEST_TIMELINE)) {
+            available.add("Request Timeline" to {
+                RequestTimeline.show(this, tabManager.activeTab()?.requestLog ?: emptyList())
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.VIEWPORT_EMULATOR)) {
+            available.add("Viewport Emulator" to {
+                ViewportEmulator.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.ACCESSIBILITY_CHECKER)) {
+            available.add("Accessibility Scan" to {
+                AccessibilityChecker.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SCREENSHOT_CAPTURE)) {
+            available.add("Screenshot" to {
+                ScreenshotCapture.show(this, tabManager.activeTab()?.webView, downloadManager)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.BOOKMARKLET_RUNNER)) {
+            available.add("Bookmarklets" to {
+                BookmarkletRunner.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.TECH_FINGERPRINT)) {
+            available.add("Tech Fingerprint" to {
+                TechFingerprint.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.WHOIS_LOOKUP)) {
+            available.add("WHOIS Lookup" to {
+                WhoisLookup.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DNS_LOOKUP)) {
+            available.add("DNS Lookup" to {
+                DnsLookup.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.FAVICON_HASH)) {
+            available.add("Favicon Hash" to {
+                FaviconHash.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.PORT_SCANNER)) {
+            available.add("Port Scanner" to {
+                PortScanner.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.GRAPHQL_INTROSPECTION)) {
+            available.add("GraphQL Introspection" to {
+                GraphQLIntrospection.show(this, tabManager.activeTab()?.webView)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.TOTP_GENERATOR)) {
+            available.add("TOTP Generator" to { TotpGenerator.show(this) })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.HAR_EXPORT)) {
+            available.add("Export Request Log (HAR)" to {
+                HarExport.export(this, tabManager.activeTab()?.requestLog ?: emptyList(), downloadManager)
+            })
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.CASE_FILE_EXPORT)) {
+            available.add("Export Case File" to {
+                CaseFileExport.export(this, tabManager.activeTab()?.requestLog ?: emptyList(), downloadManager)
+            })
+        }
         if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SSH_TERMINAL)) {
             available.add("SSH Terminal" to { SSHTerminal.show(this) })
         }
@@ -343,7 +462,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val listView = ListView(this)
-        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, rows)
+        listView.setBackgroundColor(getColor(R.color.bh_background))
+        listView.adapter = ArrayAdapter(this, R.layout.list_item_dark, rows)
 
         AlertDialog.Builder(this)
             .setTitle("Request log (${entries.size}, this tab)")
@@ -368,9 +488,15 @@ class MainActivity : AppCompatActivity() {
         tabManager.destroyAll()
         binding.webViewContainer.removeAllViews()
         CookieManager.getInstance().removeAllCookies(null)
+        WebStorage.getInstance().deleteAllData()
         clearCache()
         downloadManager.clearAll()
         modeManager.resetToBasicMode()
+        // Session Manager never silently survives a clear - if it was on for
+        // a CTF login, this session is now over; the next one needs a fresh
+        // explicit opt-in.
+        settings.sessionPersistenceEnabled = false
+        updateSessionBadge()
         renderTabIndicators()
         openNewTab()
         NotificationManager.showToast(this, "Session cleared and reset to Basic mode")
@@ -387,12 +513,24 @@ class MainActivity : AppCompatActivity() {
         binding.modeIndicatorText.setTextColor(getColor(colorRes))
     }
 
+    /**
+     * Session Manager badge - only visible when cookies/localStorage are
+     * being kept, so persistence is never on without a visible reminder.
+     * Hidden (not just quiet) the rest of the time, since it's the
+     * exception, not the normal state.
+     */
+    private fun updateSessionBadge() {
+        binding.sessionBadge.visibility =
+            if (settings.sessionPersistenceEnabled) android.view.View.VISIBLE else android.view.View.GONE
+    }
+
     // --- Lifecycle: enforce "always private, nothing survives exit" -------
 
     override fun onResume() {
         super.onResume()
         ProxyManager.applyFromSettings(settings)
         modeManager.syncFromSettings()
+        updateSessionBadge()
     }
 
     override fun onDestroy() {

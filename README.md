@@ -182,3 +182,5 @@ and keep just the domain per line, same format already used here.
 ## Documentation
 
 A more detailed developer guide is available at `docs/DOCUMENTATION.md`. It describes the repository layout, important files to edit (homepage, WebView settings, adblock list), and step-by-step build and install instructions.
+
+The feature roadmap — planned tools, organized by which mode they unlock in — is at `docs/FEATURES.md`.
