@@ -7,7 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.blackhole.browser.databinding.DialogSshBinding
 import net.schmizz.sshj.SSHClient
-import net.schmizz.sshj.transport.verification.HostKeyVerifier
+import net.schmizz.sshj.transport.verification.PromiscuousVerifier
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
 import java.security.PublicKey
@@ -20,13 +20,16 @@ import java.util.concurrent.TimeUnit
  * session and are never written to Settings/SharedPreferences or disk; the
  * connection is torn down when the dialog closes.
  *
- * Host key verification uses trust-on-first-use: the first connection to a
- * host:port prompts you to accept and pin its key fingerprint (stored via
- * KnownHostsStore); every later connection compares silently against that
- * pinned value and refuses outright on a mismatch rather than prompting to
- * override - if a server's key legitimately rotates, use "Forget Saved
- * Host Key" to reset and re-pin deliberately. See KnownHostsStore's doc
- * comment for how the fingerprint is computed and its limits.
+ * Host key verification uses trust-on-first-use, implemented as a manual
+ * post-connect check rather than a custom HostKeyVerifier: sshj's
+ * HostKeyVerifier in this version isn't a plain single-method interface, so
+ * a Kotlin SAM-lambda against it doesn't compile cleanly. Instead, the
+ * transport connects using sshj's built-in PromiscuousVerifier (which
+ * accepts any key so the handshake always completes), and immediately
+ * after connecting - before any authentication - the negotiated key is
+ * pulled from ssh.transport.hostKey and checked against KnownHostsStore
+ * ourselves. Functionally the same TOFU behavior, just implemented one
+ * layer up from the library's own verifier hook.
  */
 object SSHTerminal {
 
@@ -89,11 +92,48 @@ object SSHTerminal {
             binding.btnConnect.isEnabled = false
 
             Thread {
+                var ssh: SSHClient? = null
                 try {
-                    val ssh = SSHClient()
-                    ssh.addHostKeyVerifier(pinningVerifier(context, mainHandler, knownHosts, ::appendOutput))
+                    ssh = SSHClient()
+                    ssh.addHostKeyVerifier(PromiscuousVerifier())
                     ssh.connectTimeout = 15_000
                     ssh.connect(host, port)
+
+                    val hostKey: PublicKey = ssh.transport.hostKey
+                    val fingerprint = fingerprintOf(hostKey)
+                    val stored = knownHosts.getFingerprint(host, port)
+
+                    val approved = when {
+                        stored == null -> {
+                            val trusted = promptTrustSync(context, mainHandler, host, port, fingerprint)
+                            if (trusted) {
+                                knownHosts.saveFingerprint(host, port, fingerprint)
+                                mainHandler.post { appendOutput("Pinned new host key for $host:$port.") }
+                            } else {
+                                mainHandler.post { appendOutput("Host key rejected - disconnecting.") }
+                            }
+                            trusted
+                        }
+                        stored == fingerprint -> true
+                        else -> {
+                            mainHandler.post {
+                                appendOutput(
+                                    "\u26A0 HOST KEY MISMATCH for $host:$port - refusing to connect. " +
+                                        "This could mean the server's key legitimately rotated, or it " +
+                                        "could be a MITM. If you're sure it's legitimate, use \"Forget " +
+                                        "Saved Host Key\" and reconnect to re-pin."
+                                )
+                            }
+                            false
+                        }
+                    }
+
+                    if (!approved) {
+                        ssh.disconnect()
+                        mainHandler.post { binding.btnConnect.isEnabled = true }
+                        return@Thread
+                    }
+
                     ssh.authPassword(username, password)
                     client = ssh
                     mainHandler.post {
@@ -101,6 +141,7 @@ object SSHTerminal {
                         binding.commandRow.visibility = View.VISIBLE
                     }
                 } catch (e: Exception) {
+                    try { ssh?.disconnect() } catch (_: Exception) { }
                     mainHandler.post {
                         appendOutput("Connection failed: ${e.message}")
                         binding.btnConnect.isEnabled = true
@@ -132,49 +173,6 @@ object SSHTerminal {
         }
 
         dialog.show()
-    }
-
-    /**
-     * Trust-on-first-use HostKeyVerifier. sshj calls verify() synchronously
-     * during the handshake on the connecting thread (already a background
-     * Thread here, never the main thread) - to prompt for a first-time key,
-     * this blocks that thread on a CountDownLatch while the actual dialog
-     * is shown via a post to the main thread, and resumes once the user taps
-     * a button (or after a 2-minute timeout, which counts as "declined").
-     */
-    private fun pinningVerifier(
-        context: Context,
-        mainHandler: Handler,
-        knownHosts: KnownHostsStore,
-        appendOutput: (String) -> Unit
-    ) = HostKeyVerifier { hostname, port, key ->
-        val fingerprint = fingerprintOf(key)
-        val stored = knownHosts.getFingerprint(hostname, port)
-
-        when {
-            stored == null -> {
-                val trusted = promptTrustSync(context, mainHandler, hostname, port, fingerprint)
-                if (trusted) {
-                    knownHosts.saveFingerprint(hostname, port, fingerprint)
-                    mainHandler.post { appendOutput("Pinned new host key for $hostname:$port.") }
-                } else {
-                    mainHandler.post { appendOutput("Host key rejected - connection will fail.") }
-                }
-                trusted
-            }
-            stored == fingerprint -> true
-            else -> {
-                mainHandler.post {
-                    appendOutput(
-                        "\u26A0 HOST KEY MISMATCH for $hostname:$port - refusing to connect. " +
-                            "This could mean the server's key legitimately rotated, or it could be " +
-                            "a MITM. If you're sure it's legitimate, use \"Forget Saved Host Key\" " +
-                            "and reconnect to re-pin."
-                    )
-                }
-                false
-            }
-        }
     }
 
     private fun promptTrustSync(

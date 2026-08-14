@@ -54,8 +54,12 @@ Developer- and recon-facing tools. All 18 planned tools are now implemented.
 - ✅ JWT decoder — header/payload split, expiry ("exp" claim) highlighted.
   Decoding only, not signature verification - there's no key entry here
 - ✅ User-agent switcher — per-tab UA override with common presets + custom
-- ✅ Full-page screenshot — via WebView.captureBitmapAsync, saved as PNG
-  to Downloads/Blackhole
+- ✅ Screenshot — captures the visible viewport via View.draw(Canvas),
+  saved as PNG to Downloads/Blackhole. NOT full-page: an earlier version of
+  this doc/code claimed a full-page capture via a WebView.captureBitmapAsync
+  method that turned out not to exist in the public SDK - caught by a build
+  error and corrected. A true full-page capture would need scroll-and-stitch,
+  which isn't implemented
 - ✅ Bookmarklet runner — save/run small JS snippets, persisted locally
   across app restarts
 - ✅ Tech-stack fingerprinting — signature matching (headers + HTML) for
@@ -81,6 +85,13 @@ All 9 planned tools are now implemented.
 - ✅ Port scanner — TCP connect scan against ~29 common ports, gated
   behind a mandatory "I'm authorized to test this host" checkbox that
   must be checked before Scan is enabled
+- ✅ Directory/file buster — lightweight gobuster-style path fuzzer, not a
+  reimplementation of gobuster itself. Built-in ~170-entry wordlist (a few
+  KB) or a pasted custom list, hard-capped at 2000 total requests (after
+  extensions are factored in) to stay phone-appropriate rather than
+  SecLists-scale. 8 concurrent requests, short timeouts, response bodies
+  never read into memory - only the status code is touched. Same
+  authorization checkbox gate as the port scanner
 - ✅ GraphQL introspection helper — sends the standard introspection query,
   shows the raw schema JSON pretty-printed (no schema tree browser)
 - ✅ TOTP generator — RFC 6238, HMAC-SHA1, 30s/6-digit, live-updating.

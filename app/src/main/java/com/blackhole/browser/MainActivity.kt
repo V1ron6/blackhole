@@ -404,6 +404,11 @@ class MainActivity : AppCompatActivity() {
                 PortScanner.show(this, tabManager.activeTab()?.webView)
             })
         }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DIRECTORY_BUSTER)) {
+            available.add("Directory Buster" to {
+                DirectoryBuster.show(this, tabManager.activeTab()?.webView)
+            })
+        }
         if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.GRAPHQL_INTROSPECTION)) {
             available.add("GraphQL Introspection" to {
                 GraphQLIntrospection.show(this, tabManager.activeTab()?.webView)

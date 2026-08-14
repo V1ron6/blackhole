@@ -2,6 +2,7 @@ package com.blackhole.browser
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Handler
 import android.view.LayoutInflater
 import android.webkit.WebView
@@ -14,11 +15,16 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * Captures the active tab's page as a PNG via WebView.captureBitmapAsync
- * (API 28+, this app's minSdk is 29 so it's always available). Per the
- * platform API, this captures the WebView's full composited content, not
- * just the visible viewport - unlike a plain View drawing cache. Saved
- * through DownloadManager into the public Downloads/Blackhole folder.
+ * Captures the active tab's page as a PNG via View.draw(Canvas) - the
+ * standard, always-available way to rasterize any Android View, WebView
+ * included. Correction from an earlier version of this file: there is no
+ * WebView.captureBitmapAsync in the public SDK (that call didn't exist -
+ * a build error caught it). This captures only the currently visible
+ * viewport, the same as taking a screenshot of what's on screen right now -
+ * NOT the full scrollable page content beyond what's rendered. A true
+ * full-page capture would mean scrolling and stitching multiple captures
+ * together, which this doesn't do. Saved through DownloadManager into the
+ * public Downloads/Blackhole folder.
  */
 object ScreenshotCapture {
 
@@ -29,9 +35,12 @@ object ScreenshotCapture {
             Toast.makeText(context, "No active tab to capture", Toast.LENGTH_SHORT).show()
             return
         }
+        if (webView.width == 0 || webView.height == 0) {
+            Toast.makeText(context, "Tab isn't visible/sized yet - try again after it loads", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         val binding = DialogScreenshotBinding.inflate(LayoutInflater.from(context))
-        var capturedBitmap: Bitmap? = null
         val mainHandler = Handler(context.mainLooper)
 
         val dialog = AlertDialog.Builder(context)
@@ -41,22 +50,20 @@ object ScreenshotCapture {
             .create()
         dialog.show()
 
-        try {
-            webView.captureBitmapAsync { bitmap ->
-                mainHandler.post {
-                    capturedBitmap = bitmap
-                    binding.screenshotPreview.setImageBitmap(bitmap)
-                    binding.screenshotStatus.text = "Captured (${bitmap.width}\u00d7${bitmap.height}px)"
-                    binding.btnSaveScreenshot.isEnabled = true
-                }
+        val bitmap: Bitmap = try {
+            Bitmap.createBitmap(webView.width, webView.height, Bitmap.Config.ARGB_8888).also { bmp ->
+                webView.draw(Canvas(bmp))
             }
         } catch (e: Exception) {
             binding.screenshotStatus.text = "Capture failed: ${e.message}"
             return
         }
 
+        binding.screenshotPreview.setImageBitmap(bitmap)
+        binding.screenshotStatus.text = "Captured visible area (${bitmap.width}\u00d7${bitmap.height}px)"
+        binding.btnSaveScreenshot.isEnabled = true
+
         binding.btnSaveScreenshot.setOnClickListener {
-            val bitmap = capturedBitmap ?: return@setOnClickListener
             binding.btnSaveScreenshot.isEnabled = false
             binding.screenshotStatus.text = "Saving\u2026"
 

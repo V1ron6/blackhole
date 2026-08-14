@@ -46,7 +46,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@android:drawable/ic_input_add"
+            android:src="@drawable/ic_plus"
             android:contentDescription="@string/new_tab"
             app:tint="@color/bh_text_dim" />
 
@@ -55,7 +55,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@android:drawable/ic_menu_manage"
+            android:src="@drawable/ic_settings_sliders"
             android:contentDescription="Security settings"
             app:tint="@color/bh_text_dim" />
     </LinearLayout>
@@ -145,7 +145,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_media_previous"
+            android:src="@drawable/ic_arrow_left"
             android:contentDescription="@string/go_back"
             app:tint="@color/bh_text_dim" />
 
@@ -155,7 +155,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_media_next"
+            android:src="@drawable/ic_arrow_right"
             android:contentDescription="@string/go_forward"
             app:tint="@color/bh_text_dim" />
 
@@ -165,7 +165,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_revert"
+            android:src="@drawable/ic_home"
             android:contentDescription="@string/go_home"
             app:tint="@color/bh_text_dim" />
 
@@ -175,7 +175,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_popup_sync"
+            android:src="@drawable/ic_refresh"
             android:contentDescription="@string/reload"
             app:tint="@color/bh_text_dim" />
 
@@ -185,7 +185,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_edit"
+            android:src="@drawable/ic_code"
             android:contentDescription="@string/js_toggle"
             app:tint="@color/bh_text_dim" />
 
@@ -195,7 +195,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_recent_history"
+            android:src="@drawable/ic_list"
             android:contentDescription="Request log"
             app:tint="@color/bh_text_dim" />
 
@@ -205,7 +205,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_agenda"
+            android:src="@drawable/ic_grid"
             android:contentDescription="Mode tools"
             app:tint="@color/bh_text_dim" />
 
@@ -215,7 +215,7 @@
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:src="@drawable/ic_trash"
             android:contentDescription="@string/clear_session"
             app:tint="@color/bh_danger" />
     </LinearLayout>

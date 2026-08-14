@@ -21,7 +21,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@android:drawable/ic_menu_revert"
+            android:src="@drawable/ic_arrow_left"
             android:contentDescription="Back"
             app:tint="@color/bh_text_dim" />
 

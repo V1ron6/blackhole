@@ -62,6 +62,7 @@ class ModeManager(private val activity: Activity, private val settings: Settings
             ModeFeature.TOTP_GENERATOR -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.HAR_EXPORT -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.CASE_FILE_EXPORT -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.DIRECTORY_BUSTER -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.SECURITY_SCANNER -> currentMode >= BrowserMode.ADVANCE
             ModeFeature.COOKIE_INSPECTOR -> currentMode >= BrowserMode.ADVANCE
             ModeFeature.DATA_TOOLKIT -> currentMode >= BrowserMode.ADVANCE
@@ -117,6 +118,7 @@ class ModeManager(private val activity: Activity, private val settings: Settings
         TOTP_GENERATOR,
         HAR_EXPORT,
         CASE_FILE_EXPORT,
+        DIRECTORY_BUSTER,
         SECURITY_SCANNER,
         COOKIE_INSPECTOR,
         DATA_TOOLKIT,
