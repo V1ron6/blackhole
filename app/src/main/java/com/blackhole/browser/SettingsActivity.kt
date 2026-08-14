@@ -33,6 +33,7 @@ class SettingsActivity : AppCompatActivity() {
             BrowserMode.BYTEBANDIT -> binding.radioModeByteBandit.isChecked = true
         }
         binding.inputDownloadRetention.setText(settings.downloadRetentionHours.toString())
+        binding.switchSessionPersistence.isChecked = settings.sessionPersistenceEnabled
 
         if (!ProxyManager.isSupported()) {
             binding.switchProxy.isEnabled = false
@@ -44,6 +45,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.btnSaveSettings.setOnClickListener { saveAndApply() }
+        binding.btnBackToTabs.setOnClickListener { finish() }
 
         binding.btnPresetTor.setOnClickListener {
             binding.inputProxyScheme.setText(Settings.DEFAULT_PROXY_SCHEME)
@@ -76,6 +78,15 @@ class SettingsActivity : AppCompatActivity() {
             binding.inputDownloadRetention.text.toString().toIntOrNull()
                 ?.coerceAtLeast(1)
                 ?: Settings.DEFAULT_DOWNLOAD_RETENTION_HOURS
+
+        // Cookies (global, via CookieManager) apply immediately on save.
+        // domStorageEnabled is per-WebView, so it only takes effect on tabs
+        // created after this - same "existing tabs keep their settings"
+        // rule as security mode, below. Turning this off here stops future
+        // persistence but does NOT retroactively wipe what's already
+        // stored - that's deliberately only what the Clear Session button
+        // does, so there's exactly one action that means "wipe everything."
+        settings.sessionPersistenceEnabled = binding.switchSessionPersistence.isChecked
 
         settings.proxyEnabled = binding.switchProxy.isChecked
         settings.proxyScheme = binding.inputProxyScheme.text.toString().ifBlank {

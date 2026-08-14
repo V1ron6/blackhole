@@ -643,6 +643,7 @@
     <color name="bh_background">#05050A</color>
     <color name="bh_border">#23232F</color>
     <color name="bh_danger">#FF5470</color>
+    <color name="bh_success">#2CB67D</color>
     <color name="bh_surface">#0E0E16</color>
     <color name="bh_text">#E6E6F0</color>
     <color name="bh_text_dim">#9B9BB0</color>
@@ -2141,6 +2142,7 @@
   </string>
     <string description="Content description for the X button to clear text [CHAR_LIMIT=NONE]" name="searchview_clear_text_content_description">Clear text</string>
     <string description="Content description for the navigation button to return to the previous screen [CHAR_LIMIT=NONE]" name="searchview_navigation_content_description">Back</string>
+    <string name="session_badge_description">Session persistence is on - cookies and local storage are being kept. Tap to change in Settings.</string>
     <string description="Title of the side sheet&apos;s accessibility pane that is spoken by TalkBack when the side sheet appears on screen. [CHAR_LIMIT=NONE]" name="side_sheet_accessibility_pane_title">Side Sheet</string>
     <string name="side_sheet_behavior" translatable="false">com.google.android.material.sidesheet.SideSheetBehavior</string>
     <string name="status_bar_notification_info_overflow">999+</string>

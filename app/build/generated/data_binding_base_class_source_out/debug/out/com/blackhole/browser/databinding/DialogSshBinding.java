@@ -26,6 +26,9 @@ public final class DialogSshBinding implements ViewBinding {
   public final Button btnConnect;
 
   @NonNull
+  public final Button btnForgetHostKey;
+
+  @NonNull
   public final Button btnRunCommand;
 
   @NonNull
@@ -53,12 +56,13 @@ public final class DialogSshBinding implements ViewBinding {
   public final ScrollView terminalScroll;
 
   private DialogSshBinding(@NonNull ScrollView rootView, @NonNull Button btnConnect,
-      @NonNull Button btnRunCommand, @NonNull LinearLayout commandRow,
-      @NonNull EditText inputCommand, @NonNull EditText inputHost, @NonNull EditText inputPassword,
-      @NonNull EditText inputPort, @NonNull EditText inputUsername,
+      @NonNull Button btnForgetHostKey, @NonNull Button btnRunCommand,
+      @NonNull LinearLayout commandRow, @NonNull EditText inputCommand, @NonNull EditText inputHost,
+      @NonNull EditText inputPassword, @NonNull EditText inputPort, @NonNull EditText inputUsername,
       @NonNull TextView terminalOutput, @NonNull ScrollView terminalScroll) {
     this.rootView = rootView;
     this.btnConnect = btnConnect;
+    this.btnForgetHostKey = btnForgetHostKey;
     this.btnRunCommand = btnRunCommand;
     this.commandRow = commandRow;
     this.inputCommand = inputCommand;
@@ -100,6 +104,12 @@ public final class DialogSshBinding implements ViewBinding {
       id = R.id.btnConnect;
       Button btnConnect = ViewBindings.findChildViewById(rootView, id);
       if (btnConnect == null) {
+        break missingId;
+      }
+
+      id = R.id.btnForgetHostKey;
+      Button btnForgetHostKey = ViewBindings.findChildViewById(rootView, id);
+      if (btnForgetHostKey == null) {
         break missingId;
       }
 
@@ -157,9 +167,9 @@ public final class DialogSshBinding implements ViewBinding {
         break missingId;
       }
 
-      return new DialogSshBinding((ScrollView) rootView, btnConnect, btnRunCommand, commandRow,
-          inputCommand, inputHost, inputPassword, inputPort, inputUsername, terminalOutput,
-          terminalScroll);
+      return new DialogSshBinding((ScrollView) rootView, btnConnect, btnForgetHostKey,
+          btnRunCommand, commandRow, inputCommand, inputHost, inputPassword, inputPort,
+          inputUsername, terminalOutput, terminalScroll);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

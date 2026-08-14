@@ -75,6 +75,16 @@
         android:text="Connect"
         android:textAllCaps="false"
         android:backgroundTint="@color/bh_accent"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnForgetHostKey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forget Saved Host Key"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_border"
+        android:textColor="@color/bh_text"
         android:layout_marginBottom="10dp" />
 
     <ScrollView

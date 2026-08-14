@@ -41,6 +41,31 @@ class ModeManager(private val activity: Activity, private val settings: Settings
             ModeFeature.POSTMAN_REQUESTS -> currentMode >= BrowserMode.INTERMEDIATE
             ModeFeature.JS_CONSOLE -> currentMode >= BrowserMode.ADVANCE
             ModeFeature.INSPECTOR -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.JWT_DECODER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.JSON_FORMATTER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.REGEX_TESTER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.STORAGE_INSPECTOR -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.USER_AGENT_SWITCHER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.ROBOTS_FETCH -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.DIFF_VIEWER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.REQUEST_TIMELINE -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.VIEWPORT_EMULATOR -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.ACCESSIBILITY_CHECKER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.SCREENSHOT_CAPTURE -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.BOOKMARKLET_RUNNER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.TECH_FINGERPRINT -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.WHOIS_LOOKUP -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.DNS_LOOKUP -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.FAVICON_HASH -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.PORT_SCANNER -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.GRAPHQL_INTROSPECTION -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.TOTP_GENERATOR -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.HAR_EXPORT -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.CASE_FILE_EXPORT -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.DIRECTORY_BUSTER -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.SECURITY_SCANNER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.COOKIE_INSPECTOR -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.DATA_TOOLKIT -> currentMode >= BrowserMode.ADVANCE
             ModeFeature.SSH_TERMINAL -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.ADVANCED_SETTINGS -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.NOTIFICATIONS -> true // Available in all modes
@@ -72,6 +97,31 @@ class ModeManager(private val activity: Activity, private val settings: Settings
         POSTMAN_REQUESTS,
         JS_CONSOLE,
         INSPECTOR,
+        JWT_DECODER,
+        JSON_FORMATTER,
+        REGEX_TESTER,
+        STORAGE_INSPECTOR,
+        USER_AGENT_SWITCHER,
+        ROBOTS_FETCH,
+        DIFF_VIEWER,
+        REQUEST_TIMELINE,
+        VIEWPORT_EMULATOR,
+        ACCESSIBILITY_CHECKER,
+        SCREENSHOT_CAPTURE,
+        BOOKMARKLET_RUNNER,
+        TECH_FINGERPRINT,
+        WHOIS_LOOKUP,
+        DNS_LOOKUP,
+        FAVICON_HASH,
+        PORT_SCANNER,
+        GRAPHQL_INTROSPECTION,
+        TOTP_GENERATOR,
+        HAR_EXPORT,
+        CASE_FILE_EXPORT,
+        DIRECTORY_BUSTER,
+        SECURITY_SCANNER,
+        COOKIE_INSPECTOR,
+        DATA_TOOLKIT,
         SSH_TERMINAL,
         ADVANCED_SETTINGS,
         NOTIFICATIONS,

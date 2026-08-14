@@ -13,11 +13,15 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 
 /**
- * Builds a single hardened, always-private WebView tab.
+ * Builds a single hardened WebView tab.
  *
  * Security posture:
- *  - No cookies persisted (CookieManager never set to accept; cleared on creation)
- *  - No cache, no form data, no autofill, no saved passwords
+ *  - Cookies and localStorage/sessionStorage OFF by default (always-private) -
+ *    can be turned on via Settings > Session Manager for cases like staying
+ *    logged into a CTF target. When on, third-party cookies stay blocked
+ *    regardless. Session Manager resets to off, and wipes whatever was
+ *    stored, every time Clear Session runs - see MainActivity.clearEverythingAndReset.
+ *  - No HTTP cache, no form data, no autofill, no saved passwords
  *  - No file system access from web content (file:// disabled, no file upload-adjacent APIs)
  *  - JavaScript OFF by default; caller can enable per-tab if the user explicitly trusts a site
  *  - HTTPS-only in Strict mode; http:// is permitted in CTF mode (toggle in
@@ -41,13 +45,13 @@ object SecureWebView {
         onUrlChanged: (String) -> Unit,
         onLoadingChanged: (Boolean) -> Unit,
         onBlockedInsecure: () -> Unit,
-        onRequestLogged: (host: String, blocked: Boolean) -> Unit = { _, _ -> }
+        onRequestLogged: (host: String, url: String, method: String, blocked: Boolean) -> Unit = { _, _, _, _ -> }
     ) {
         val settings: WebSettings = webView.settings
 
         // --- Core hardening ---
         settings.javaScriptEnabled = jsEnabled
-        settings.domStorageEnabled = false
+        settings.domStorageEnabled = appSettings.sessionPersistenceEnabled
         settings.databaseEnabled = false
         settings.allowFileAccess = false
         settings.allowContentAccess = false
@@ -60,9 +64,12 @@ object SecureWebView {
         settings.cacheMode = WebSettings.LOAD_NO_CACHE
         settings.mediaPlaybackRequiresUserGesture = true
 
-        // No third-party / persisted cookies at all - private by design.
+        // Cookies: off by default (always-private). Session Manager in
+        // Settings can turn first-party cookies on for cases like staying
+        // logged into a CTF target - third-party cookies stay blocked
+        // either way, since there's no legitimate reason this app needs them.
         android.webkit.CookieManager.getInstance().apply {
-            setAcceptCookie(false)
+            setAcceptCookie(appSettings.sessionPersistenceEnabled)
             setAcceptThirdPartyCookies(webView, false)
         }
 
@@ -100,18 +107,20 @@ object SecureWebView {
                 request: WebResourceRequest
             ): WebResourceResponse? {
                 val host = request.url.host
+                val urlString = request.url.toString()
+                val method = request.method
                 if (adBlocker.isBlocked(host)) {
-                    if (!host.isNullOrEmpty()) onRequestLogged(host, true)
+                    if (!host.isNullOrEmpty()) onRequestLogged(host, urlString, method, true)
                     return adBlocker.emptyResponse()
                 }
                 // Belt-and-suspenders: in Strict mode, block any sub-resource
                 // fetched over plain HTTP too. In CTF mode, allow it - lab
                 // targets commonly serve images/scripts over http as well.
                 if (request.url.scheme == "http" && appSettings.securityMode == SecurityMode.STRICT) {
-                    if (!host.isNullOrEmpty()) onRequestLogged(host, true)
+                    if (!host.isNullOrEmpty()) onRequestLogged(host, urlString, method, true)
                     return adBlocker.emptyResponse()
                 }
-                if (!host.isNullOrEmpty()) onRequestLogged(host, false)
+                if (!host.isNullOrEmpty()) onRequestLogged(host, urlString, method, false)
                 return null
             }
 

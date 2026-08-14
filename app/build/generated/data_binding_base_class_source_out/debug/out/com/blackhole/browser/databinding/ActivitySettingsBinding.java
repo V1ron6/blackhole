@@ -6,9 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,10 +22,13 @@ import java.lang.String;
 
 public final class ActivitySettingsBinding implements ViewBinding {
   @NonNull
-  private final ScrollView rootView;
+  private final LinearLayout rootView;
 
   @NonNull
   public final RadioGroup browserModeGroup;
+
+  @NonNull
+  public final ImageButton btnBackToTabs;
 
   @NonNull
   public final Button btnPresetBurp;
@@ -71,17 +75,22 @@ public final class ActivitySettingsBinding implements ViewBinding {
   @NonNull
   public final Switch switchProxy;
 
-  private ActivitySettingsBinding(@NonNull ScrollView rootView,
-      @NonNull RadioGroup browserModeGroup, @NonNull Button btnPresetBurp,
-      @NonNull Button btnPresetTor, @NonNull Button btnSaveSettings,
+  @NonNull
+  public final Switch switchSessionPersistence;
+
+  private ActivitySettingsBinding(@NonNull LinearLayout rootView,
+      @NonNull RadioGroup browserModeGroup, @NonNull ImageButton btnBackToTabs,
+      @NonNull Button btnPresetBurp, @NonNull Button btnPresetTor, @NonNull Button btnSaveSettings,
       @NonNull EditText inputDownloadRetention, @NonNull EditText inputProxyHost,
       @NonNull EditText inputProxyPort, @NonNull EditText inputProxyScheme,
       @NonNull RadioButton radioCtf, @NonNull RadioButton radioModeAdvance,
       @NonNull RadioButton radioModeBasic, @NonNull RadioButton radioModeByteBandit,
       @NonNull RadioButton radioModeIntermediate, @NonNull RadioButton radioStrict,
-      @NonNull RadioGroup securityModeGroup, @NonNull Switch switchProxy) {
+      @NonNull RadioGroup securityModeGroup, @NonNull Switch switchProxy,
+      @NonNull Switch switchSessionPersistence) {
     this.rootView = rootView;
     this.browserModeGroup = browserModeGroup;
+    this.btnBackToTabs = btnBackToTabs;
     this.btnPresetBurp = btnPresetBurp;
     this.btnPresetTor = btnPresetTor;
     this.btnSaveSettings = btnSaveSettings;
@@ -97,11 +106,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
     this.radioStrict = radioStrict;
     this.securityModeGroup = securityModeGroup;
     this.switchProxy = switchProxy;
+    this.switchSessionPersistence = switchSessionPersistence;
   }
 
   @Override
   @NonNull
-  public ScrollView getRoot() {
+  public LinearLayout getRoot() {
     return rootView;
   }
 
@@ -129,6 +139,12 @@ public final class ActivitySettingsBinding implements ViewBinding {
       id = R.id.browserModeGroup;
       RadioGroup browserModeGroup = ViewBindings.findChildViewById(rootView, id);
       if (browserModeGroup == null) {
+        break missingId;
+      }
+
+      id = R.id.btnBackToTabs;
+      ImageButton btnBackToTabs = ViewBindings.findChildViewById(rootView, id);
+      if (btnBackToTabs == null) {
         break missingId;
       }
 
@@ -222,10 +238,17 @@ public final class ActivitySettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivitySettingsBinding((ScrollView) rootView, browserModeGroup, btnPresetBurp,
-          btnPresetTor, btnSaveSettings, inputDownloadRetention, inputProxyHost, inputProxyPort,
-          inputProxyScheme, radioCtf, radioModeAdvance, radioModeBasic, radioModeByteBandit,
-          radioModeIntermediate, radioStrict, securityModeGroup, switchProxy);
+      id = R.id.switchSessionPersistence;
+      Switch switchSessionPersistence = ViewBindings.findChildViewById(rootView, id);
+      if (switchSessionPersistence == null) {
+        break missingId;
+      }
+
+      return new ActivitySettingsBinding((LinearLayout) rootView, browserModeGroup, btnBackToTabs,
+          btnPresetBurp, btnPresetTor, btnSaveSettings, inputDownloadRetention, inputProxyHost,
+          inputProxyPort, inputProxyScheme, radioCtf, radioModeAdvance, radioModeBasic,
+          radioModeByteBandit, radioModeIntermediate, radioStrict, securityModeGroup, switchProxy,
+          switchSessionPersistence);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -4,6 +4,7 @@
     <color name="bh_background">#05050A</color>
     <color name="bh_border">#23232F</color>
     <color name="bh_danger">#FF5470</color>
+    <color name="bh_success">#2CB67D</color>
     <color name="bh_surface">#0E0E16</color>
     <color name="bh_text">#E6E6F0</color>
     <color name="bh_text_dim">#9B9BB0</color>
@@ -21,6 +22,7 @@
     <string name="mode_indicator_description">Current browser mode. Tap to change in Settings.</string>
     <string name="new_tab">New tab</string>
     <string name="reload">Reload</string>
+    <string name="session_badge_description">Session persistence is on - cookies and local storage are being kept. Tap to change in Settings.</string>
     <string name="url_bar_hint">Search or enter address</string>
     <style name="Theme.Blackhole" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/bh_accent</item>

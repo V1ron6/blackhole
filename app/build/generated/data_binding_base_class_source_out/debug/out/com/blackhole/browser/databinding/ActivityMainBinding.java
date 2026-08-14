@@ -59,6 +59,12 @@ public final class ActivityMainBinding implements ViewBinding {
   public final TextView modeIndicatorText;
 
   @NonNull
+  public final LinearLayout sessionBadge;
+
+  @NonNull
+  public final TextView sessionBadgeText;
+
+  @NonNull
   public final LinearLayout tabIndicatorContainer;
 
   @NonNull
@@ -73,7 +79,8 @@ public final class ActivityMainBinding implements ViewBinding {
       @NonNull ImageButton btnNewTab, @NonNull ImageButton btnReload,
       @NonNull ImageButton btnRequestLog, @NonNull ImageButton btnSettings,
       @NonNull ImageButton btnTools, @NonNull LinearLayout modeIndicatorBar,
-      @NonNull TextView modeIndicatorText, @NonNull LinearLayout tabIndicatorContainer,
+      @NonNull TextView modeIndicatorText, @NonNull LinearLayout sessionBadge,
+      @NonNull TextView sessionBadgeText, @NonNull LinearLayout tabIndicatorContainer,
       @NonNull EditText urlBar, @NonNull FrameLayout webViewContainer) {
     this.rootView = rootView;
     this.btnBack = btnBack;
@@ -88,6 +95,8 @@ public final class ActivityMainBinding implements ViewBinding {
     this.btnTools = btnTools;
     this.modeIndicatorBar = modeIndicatorBar;
     this.modeIndicatorText = modeIndicatorText;
+    this.sessionBadge = sessionBadge;
+    this.sessionBadgeText = sessionBadgeText;
     this.tabIndicatorContainer = tabIndicatorContainer;
     this.urlBar = urlBar;
     this.webViewContainer = webViewContainer;
@@ -192,6 +201,18 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.sessionBadge;
+      LinearLayout sessionBadge = ViewBindings.findChildViewById(rootView, id);
+      if (sessionBadge == null) {
+        break missingId;
+      }
+
+      id = R.id.sessionBadgeText;
+      TextView sessionBadgeText = ViewBindings.findChildViewById(rootView, id);
+      if (sessionBadgeText == null) {
+        break missingId;
+      }
+
       id = R.id.tabIndicatorContainer;
       LinearLayout tabIndicatorContainer = ViewBindings.findChildViewById(rootView, id);
       if (tabIndicatorContainer == null) {
@@ -212,7 +233,8 @@ public final class ActivityMainBinding implements ViewBinding {
 
       return new ActivityMainBinding((LinearLayout) rootView, btnBack, btnClearSession, btnForward,
           btnHome, btnJsToggle, btnNewTab, btnReload, btnRequestLog, btnSettings, btnTools,
-          modeIndicatorBar, modeIndicatorText, tabIndicatorContainer, urlBar, webViewContainer);
+          modeIndicatorBar, modeIndicatorText, sessionBadge, sessionBadgeText,
+          tabIndicatorContainer, urlBar, webViewContainer);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
