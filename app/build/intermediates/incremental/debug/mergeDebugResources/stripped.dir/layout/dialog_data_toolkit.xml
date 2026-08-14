@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bh_background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Input"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <EditText
+        android:id="@+id/toolkitInput"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:gravity="top"
+        android:hint="Paste or type text here"
+        android:textColor="@color/bh_text"
+        android:textColorHint="@color/bh_text_dim"
+        android:fontFamily="monospace"
+        android:textSize="12sp"
+        android:inputType="textMultiLine"
+        android:layout_marginBottom="12dp" />
+
+    <Spinner
+        android:id="@+id/toolkitOperation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnRunToolkit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Run"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_accent"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Output"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/toolkitOutput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:background="@color/bh_surface"
+        android:padding="10dp"
+        android:text=""
+        android:textColor="@color/bh_text"
+        android:fontFamily="monospace"
+        android:textSize="12sp"
+        android:textIsSelectable="true" />
+
+</LinearLayout>
+</ScrollView>

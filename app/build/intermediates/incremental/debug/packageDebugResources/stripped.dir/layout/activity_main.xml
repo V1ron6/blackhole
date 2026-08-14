@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bh_background">
+
+    <!-- Top bar: tab switcher + URL bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/bh_surface"
+        android:elevation="4dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="6dp">
+
+        <LinearLayout
+            android:id="@+id/tabIndicatorContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+        <EditText
+            android:id="@+id/urlBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/bg_url_bar"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:hint="@string/url_bar_hint"
+            android:textColor="@color/bh_text"
+            android:textColorHint="@color/bh_text_dim"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:imeOptions="actionGo"
+            android:inputType="textUri"
+            android:maxLines="1" />
+
+        <ImageButton
+            android:id="@+id/btnNewTab"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_plus"
+            android:contentDescription="@string/new_tab"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_settings_sliders"
+            android:contentDescription="Security settings"
+            app:tint="@color/bh_text_dim" />
+    </LinearLayout>
+
+    <!-- Status row: mode indicator + session-persistence badge (badge hidden unless active) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp">
+
+        <LinearLayout
+            android:id="@+id/modeIndicatorBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_mode_pill"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="5dp"
+            android:layout_marginEnd="6dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/mode_indicator_description">
+
+            <TextView
+                android:id="@+id/modeIndicatorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mode: Basic"
+                android:textColor="@color/bh_text_dim"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.03" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sessionBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_mode_pill"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="5dp"
+            android:visibility="gone"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/session_badge_description">
+
+            <TextView
+                android:id="@+id/sessionBadgeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="\u26A0 Session: cookies ON"
+                android:textColor="@color/bh_warning"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.03" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- WebView container - holds up to 2 WebViews, only active one visible -->
+    <FrameLayout
+        android:id="@+id/webViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Bottom nav bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/bh_surface"
+        android:elevation="4dp"
+        android:paddingVertical="4dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_arrow_left"
+            android:contentDescription="@string/go_back"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
+            android:id="@+id/btnForward"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_arrow_right"
+            android:contentDescription="@string/go_forward"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
+            android:id="@+id/btnHome"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_home"
+            android:contentDescription="@string/go_home"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
+            android:id="@+id/btnReload"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_refresh"
+            android:contentDescription="@string/reload"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
+            android:id="@+id/btnJsToggle"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_code"
+            android:contentDescription="@string/js_toggle"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
+            android:id="@+id/btnRequestLog"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_list"
+            android:contentDescription="Request log"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
+            android:id="@+id/btnTools"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_grid"
+            android:contentDescription="Mode tools"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
+            android:id="@+id/btnClearSession"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_trash"
+            android:contentDescription="@string/clear_session"
+            app:tint="@color/bh_danger" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bh_background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/robotsTargetHost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/bh_text_dim"
+        android:textSize="11sp"
+        android:layout_marginBottom="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <Button
+            android:id="@+id/btnFetchRobots"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="robots.txt"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/bh_accent" />
+
+        <Button
+            android:id="@+id/btnFetchSitemap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="sitemap.xml"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/bh_accent" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/robotsStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/robotsOutput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="140dp"
+        android:background="@color/bh_surface"
+        android:padding="10dp"
+        android:text=""
+        android:textColor="@color/bh_text"
+        android:fontFamily="monospace"
+        android:textSize="11sp"
+        android:textIsSelectable="true" />
+
+</LinearLayout>
+</ScrollView>

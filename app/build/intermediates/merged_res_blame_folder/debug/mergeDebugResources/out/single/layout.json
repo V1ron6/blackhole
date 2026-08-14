@@ -1,0 +1,134 @@
+[
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_user_agent.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_user_agent.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_port_scanner.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_port_scanner.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_graphql_introspection.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_graphql_introspection.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_robots_fetch.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_robots_fetch.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_storage_inspector.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_storage_inspector.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/item_tab_pill.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/item_tab_pill.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/spinner_dropdown_item_dark.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/spinner_dropdown_item_dark.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/spinner_item_dark.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/spinner_item_dark.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_tech_fingerprint.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_tech_fingerprint.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_jwt_decoder.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_jwt_decoder.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_request_timeline.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_request_timeline.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_diff_viewer.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_diff_viewer.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_accessibility_checker.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_accessibility_checker.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_dns_lookup.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_dns_lookup.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_tls_inspector.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_tls_inspector.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_favicon_hash.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_favicon_hash.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_cookie_inspector.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_cookie_inspector.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_directory_buster.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_directory_buster.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_whois.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_whois.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/activity_settings.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/list_item_dark.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/list_item_dark.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_data_toolkit.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_data_toolkit.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_security_scanner.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_security_scanner.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_screenshot.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_screenshot.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_console.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_console.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_bookmarklet_runner.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_bookmarklet_runner.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_json_formatter.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_json_formatter.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_viewport_emulator.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_viewport_emulator.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_totp.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_totp.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_regex_tester.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_regex_tester.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_postman.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_postman.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/activity_main.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_ssh.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_ssh.xml"
+    }
+]
