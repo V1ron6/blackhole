@@ -118,6 +118,16 @@ object SSHTerminal {
                         }
                     }
                 }
+
+                // sshj's HostKeyVerifier has a second abstract method beyond verify()
+                // - used to hint which key algorithms an existing known_hosts entry
+                // would match, so the client can prefer negotiating those. We don't
+                // keep a known_hosts file (KnownHostsStore is a simple fingerprint
+                // map, not algorithm-aware), so there's nothing to hint - an empty
+                // list is the correct, safe answer, not a placeholder.
+                override fun findExistingAlgorithms(hostname: String, port: Int): MutableList<String> {
+                    return mutableListOf()
+                }
             }
 
             Thread {
