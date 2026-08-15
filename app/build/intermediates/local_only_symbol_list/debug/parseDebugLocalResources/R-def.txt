@@ -222,6 +222,11 @@ mipmap ic_launcher_round
 raw common_paths
 string app_name
 string cert_error
+string cert_error_ctf_bypass
+string cert_error_ctf_cancel
+string cert_error_ctf_message
+string cert_error_ctf_proceed
+string cert_error_ctf_title
 string clear_session
 string close_tab
 string go_back
