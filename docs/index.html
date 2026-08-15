@@ -219,7 +219,7 @@
     margin-top:16px; font-family:var(--mono); font-size:11px; color:var(--text-dim);
   }
   .version-list{
-    margin:36px auto 0; max-width:360px; text-align:left;
+    margin:36px auto 0; max-width:360px; text-align:center;
     border-top:1px solid var(--border); padding-top:20px;
   }
   .version-list-label{
@@ -424,7 +424,7 @@
       </details>
       <details>
         <summary>Can I build it myself?</summary>
-        <p>Yes — it's a standard Gradle-based Android project. Clone it, open it in Android Studio or run <code>./gradlew assembleDebug</code> from the command line, and you'll have a debug APK.</p>
+        <p>Yes — it's a standard Gradle-based Android project. Clone it, open it in Android Studio or run <code>./builder.sh</code> from the command line, and you'll have a debug APK. ready at <code>app/build/output/debugapk </code>. but you first have to grant <code> ./builder.sh </code> the priviledge by running <code>chmod 755 ./builder.sh </code></p>
       </details>
     </div>
   </div>
@@ -480,12 +480,16 @@
 
     <div class="version-list">
       <div class="version-list-label">Previous versions</div>
-      <ul id="versionList">
-        <li><a href="./downloads/blackhole_v1.3.apk" download>v1.3</a></li>
-        <li><a href="./downloads/blackhole_v1.2.apk" download>v1.2</a></li>
-        <li><a href="./downloads/blackhole_v1.1.apk" download>v1.1</a></li>
-        <li><a href="./downloads/blackhole_v1.0.apk" download>v1.0</a></li>
+      <center>
+      <ul id="versionList" >
+        <li><a href="./downloads/blackhole_v1.4.apk" download>v1.4 <span> Current Build </span></a></li>
+        <li><a href="./downloads/blackhole_v1.3.apk" download>v1.3 <span> Fourth Build </span></a></li>
+        <li><a href="./downloads/blackhole_v1.2.apk" download>v1.2 <span> Third Build </span></a></li>
+        <li><a href="./downloads/blackhole_v1.1.apk" download>v1.1 <span> Second Build </span></a></li>
+        <li><a href="./downloads/blackhole_v1.0.apk" download>v1.0 <span> First Build </span></a></li>
+        <li><a href="https://github.com/V1ron6/blackhole">Source code <span> incase you want to compile it yourself </span></a></li>
       </ul>
+    </center>
     </div>
   </div>
 </section>

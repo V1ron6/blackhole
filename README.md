@@ -88,9 +88,10 @@ system-wide Gradle install.
 **Option B — command line:**
 ```bash
 cd blackhole
-./gradlew assembleDebug
+ chmod 755 ./builder.sh
 # or for release (unsigned unless you configure signing):
-./gradlew assembleRelease
+./builder.sh
+# this installs all the require components and automatically set up the environment and builds the apk using gradlew
 ```
 
 If your Android SDK is not on the default path, set `ANDROID_SDK_ROOT` (or
@@ -181,6 +182,6 @@ and keep just the domain per line, same format already used here.
 
 ## Documentation
 
-A more detailed developer guide is available at `docs/DOCUMENTATION.md`. It describes the repository layout, important files to edit (homepage, WebView settings, adblock list), and step-by-step build and install instructions.
+A more detailed developer guide is available at `landing-docs/DOCUMENTATION.md`. It describes the repository layout, important files to edit (homepage, WebView settings, adblock list), and step-by-step build and install instructions.
 
-The feature roadmap — planned tools, organized by which mode they unlock in — is at `docs/FEATURES.md`.
+The feature roadmap — planned tools, organized by which mode they unlock in — is at `landing-docs/FEATURES.md`.
