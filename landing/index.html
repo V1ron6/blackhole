@@ -218,6 +218,23 @@
   .cta .fineprint{
     margin-top:16px; font-family:var(--mono); font-size:11px; color:var(--text-dim);
   }
+  .version-list{
+    margin:36px auto 0; max-width:360px; text-align:left;
+    border-top:1px solid var(--border); padding-top:20px;
+  }
+  .version-list-label{
+    font-family:var(--mono); font-size:11px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--text-dim); margin-bottom:12px; text-align:center;
+  }
+  .version-list ul{list-style:none; display:flex; flex-direction:column; gap:8px;}
+  .version-list li{
+    display:flex; align-items:baseline; gap:10px; font-family:var(--mono); font-size:12.5px;
+  }
+  .version-list li a{
+    color:var(--cyan); text-decoration:none; font-weight:600; flex-shrink:0;
+  }
+  .version-list li a:hover{text-decoration:underline;}
+  .version-list li span{color:var(--text-dim); font-size:11px;}
 
   footer{
     border-top:1px solid var(--border); padding:26px 0; text-align:center;
@@ -458,8 +475,15 @@
   <div class="wrap">
     <h2>Get Blackhole</h2>
     <p class="lead">Debug build, built from source. Not on the Play Store — install it the way you'd install any APK you trust.</p>
-    <a class="btn-primary" href="#">↓ Download latest APK</a>
-    <div class="fineprint">/* replace this link with your GitHub Releases URL before publishing */</div>
+    <a class="btn-primary" href="./downloads/blackhole-latest.apk" download="Blackhole.apk">↓ Download latest APK</a>
+    <div class="fineprint">/* drop your built APK at landing/downloads/blackhole-latest.apk — see landing/downloads/README.md */</div>
+
+    <div class="version-list">
+      <div class="version-list-label">Previous versions</div>
+      <ul id="versionList">
+        <li><a href="./downloads/blackhole-v1.0.apk" download>v1.0</a><span>— replace with your actual version links, see below</span></li>
+      </ul>
+    </div>
   </div>
 </section>
 
