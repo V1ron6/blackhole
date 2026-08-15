@@ -28,8 +28,11 @@ import android.widget.Toast
  *    Settings) since many CTF/wargame boxes only serve plain HTTP on lab
  *    ranges. Either way, this is a deliberate user choice, never a silent
  *    default.
- *  - SSL errors are NEVER silently bypassed, in either mode - the load is
- *    always cancelled on a cert error.
+ *  - SSL/cert errors: Strict mode never bypasses them, no exceptions - the
+ *    load is always cancelled. CTF mode asks per-error, the same way a
+ *    modern browser's "connection is not private" interstitial does -
+ *    proceeding requires an explicit tap every time, it's never silent and
+ *    never remembered across errors.
  *  - Ad/tracker requests are blocked at the network layer before they're ever sent
  *  - Mixed content (https page loading http resources) is blocked
  *  - Geolocation, camera/mic prompts are denied by default (no permission grants wired up)
@@ -129,7 +132,38 @@ object SecureWebView {
                 handler: SslErrorHandler,
                 error: SslError
             ) {
-                // Never proceed on a cert error. Fail closed.
+                if (appSettings.securityMode == SecurityMode.CTF) {
+                    // CTF targets very commonly run self-signed certs (lab
+                    // ranges, HTB/THM-style boxes) - Strict mode still fails
+                    // closed with zero exceptions below, but CTF mode now asks
+                    // per-error, the same way a modern desktop browser's
+                    // "Your connection is not private" interstitial does,
+                    // instead of silently proceeding. Nothing gets through
+                    // without an explicit tap every time this fires - it does
+                    // fire again per sub-resource on the same page, which is
+                    // more prompts than a desktop browser gives you, but the
+                    // alternative is remembering a bypass silently, which is
+                    // exactly the kind of quiet exception this project has
+                    // avoided everywhere else.
+                    val reason = describeSslError(error)
+                    androidx.appcompat.app.AlertDialog.Builder(view.context)
+                        .setTitle(view.context.getString(R.string.cert_error_ctf_title))
+                        .setMessage(
+                            view.context.getString(R.string.cert_error_ctf_message, reason, error.url)
+                        )
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.cert_error_ctf_proceed) { _, _ ->
+                            handler.proceed()
+                            Toast.makeText(
+                                view.context,
+                                view.context.getString(R.string.cert_error_ctf_bypass),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .setNegativeButton(R.string.cert_error_ctf_cancel) { _, _ -> handler.cancel() }
+                        .show()
+                    return
+                }
                 handler.cancel()
                 Toast.makeText(
                     view.context,
@@ -168,4 +202,17 @@ object SecureWebView {
             else -> "https://duckduckgo.com/?q=" + Uri.encode(trimmed)
         }
     }
+
+    private fun describeSslError(error: SslError): String {
+        return when (error.primaryError) {
+            SslError.SSL_NOTYETVALID -> "certificate is not yet valid"
+            SslError.SSL_EXPIRED -> "certificate has expired"
+            SslError.SSL_IDMISMATCH -> "certificate doesn't match this hostname"
+            SslError.SSL_UNTRUSTED -> "certificate isn't trusted (self-signed or unknown issuer)"
+            SslError.SSL_DATE_INVALID -> "certificate date is invalid"
+            SslError.SSL_INVALID -> "certificate is invalid"
+            else -> "certificate problem (unrecognized error type)"
+        }
+    }
 }
+

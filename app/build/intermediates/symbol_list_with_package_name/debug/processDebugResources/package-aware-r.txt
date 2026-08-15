@@ -4050,6 +4050,11 @@ string call_notification_incoming_text
 string call_notification_ongoing_text
 string call_notification_screening_text
 string cert_error
+string cert_error_ctf_bypass
+string cert_error_ctf_cancel
+string cert_error_ctf_message
+string cert_error_ctf_proceed
+string cert_error_ctf_title
 string character_counter_content_description
 string character_counter_overflowed_content_description
 string character_counter_pattern

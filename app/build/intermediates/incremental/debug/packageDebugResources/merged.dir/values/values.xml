@@ -11,6 +11,11 @@
     <color name="bh_warning">#F5A623</color>
     <string name="app_name">Blackhole</string>
     <string name="cert_error">Certificate error — connection blocked for your safety</string>
+    <string name="cert_error_ctf_bypass">Proceeding — this site\'s connection isn\'t verified.</string>
+    <string name="cert_error_ctf_cancel">Go back</string>
+    <string name="cert_error_ctf_message">This site\'s %1$s\n\n%2$s\n\nStrict mode would block this outright. CTF mode lets you continue if you know the risk — only if you trust this specific target.</string>
+    <string name="cert_error_ctf_proceed">Continue anyway</string>
+    <string name="cert_error_ctf_title">Certificate error</string>
     <string name="clear_session">Clear session</string>
     <string name="close_tab">Close tab</string>
     <string name="go_back">Back</string>
