@@ -536,6 +536,29 @@ class MainActivity : AppCompatActivity() {
         ProxyManager.applyFromSettings(settings)
         modeManager.syncFromSettings()
         updateSessionBadge()
+        syncSessionPersistenceToOpenTabs()
+    }
+
+    /**
+     * Applies the current Session Manager setting to CookieManager (global,
+     * takes effect immediately either way) and to every already-open tab's
+     * WebView (domStorageEnabled is per-WebView, so it doesn't retroactively
+     * apply on its own - a tab created before the setting was turned on
+     * would otherwise keep rejecting localStorage forever, even after the
+     * global cookie flag changes). This is what was missing before: toggling
+     * Session Manager in Settings only ever wrote the SharedPreferences
+     * value: nothing re-applied it to a tab you already had open, which is
+     * exactly the "log in, immediately logged out" symptom on sites that
+     * lean on localStorage for auth state, not just cookies. Called from
+     * onResume so returning from Settings always re-syncs, regardless of
+     * whether the toggle actually changed.
+     */
+    private fun syncSessionPersistenceToOpenTabs() {
+        val enabled = settings.sessionPersistenceEnabled
+        CookieManager.getInstance().setAcceptCookie(enabled)
+        tabManager.allTabs().forEach { tab ->
+            tab.webView.settings.domStorageEnabled = enabled
+        }
     }
 
     override fun onDestroy() {

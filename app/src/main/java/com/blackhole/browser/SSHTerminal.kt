@@ -8,9 +8,11 @@ import androidx.appcompat.app.AlertDialog
 import com.blackhole.browser.databinding.DialogSshBinding
 import net.schmizz.sshj.SSHClient
 import net.schmizz.sshj.transport.verification.HostKeyVerifier
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
 import java.security.PublicKey
+import java.security.Security
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -30,6 +32,23 @@ import java.util.concurrent.TimeUnit
  * KnownHostsStore's doc comment for how the fingerprint is computed.
  */
 object SSHTerminal {
+
+    init {
+        // Android ships its own limited "BC" security provider that's missing
+        // algorithms sshj needs (X25519 key exchange in particular) - causes
+        // "no such algorithm: X25519 for provider BC" even though the real,
+        // full BouncyCastle library is already on the classpath via sshj's
+        // own transitive dependency. It's just not the ACTIVE "BC" provider
+        // until we swap it in explicitly. Must happen before any connection
+        // attempt, hence doing it here rather than inside connect().
+        try {
+            Security.removeProvider("BC")
+            Security.insertProviderAt(BouncyCastleProvider(), 1)
+        } catch (e: Exception) {
+            // Non-fatal - worst case, algorithms Android's own BC already
+            // supports still work; only the newer ones would be affected.
+        }
+    }
 
     fun show(context: Context) {
         val binding = DialogSshBinding.inflate(LayoutInflater.from(context))
