@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bh_background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dictionary + basic rule mutations, computed entirely on-device. Not a real JtR port - no GPU, no rule engine, no distributed cracking. Only crack hashes you're authorized to (your own CTF challenge, your own lab)."
+        android:textColor="@color/bh_danger"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/crackHashInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Paste the hash"
+        android:fontFamily="monospace"
+        android:textSize="13sp"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:minLines="2"
+        android:maxLines="3"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hash type"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <Spinner
+        android:id="@+id/crackHashType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <RadioGroup
+        android:id="@+id/crackWordlistGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp">
+
+        <RadioButton
+            android:id="@+id/radioCrackBuiltinList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Built-in list (top 1000 common passwords)"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioCrackCustomList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Custom (paste below, one per line)"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/crackCustomWordlist"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:gravity="top"
+        android:hint="password1\nletmein\n...."
+        android:fontFamily="monospace"
+        android:textSize="11sp"
+        android:inputType="textMultiLine"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rule mutations (applied to each word individually, not combined with each other)"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp" />
+
+    <CheckBox
+        android:id="@+id/chkCapitalize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capitalize first letter (password -&gt; Password)"
+        android:textColor="@color/bh_text"
+        android:buttonTint="@color/bh_accent" />
+
+    <CheckBox
+        android:id="@+id/chkLeet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leetspeak (a4 e3 i1 o0 s5)"
+        android:textColor="@color/bh_text"
+        android:buttonTint="@color/bh_accent" />
+
+    <CheckBox
+        android:id="@+id/chkAppendDigits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Append 0-99 (password -&gt; password0 .. password99)"
+        android:textColor="@color/bh_text"
+        android:buttonTint="@color/bh_accent"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnStartCrack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Cracking"
+        android:backgroundTint="@color/bh_accent"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:id="@+id/crackStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/bh_text"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/crackResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:background="@drawable/bg_card_section"
+        android:padding="12dp"
+        android:text=""
+        android:textColor="@color/bh_success"
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:textIsSelectable="true" />
+
+</LinearLayout>
+</ScrollView>

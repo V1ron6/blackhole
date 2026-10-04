@@ -33,10 +33,31 @@ class MainActivity : AppCompatActivity() {
     private val HOME_URL = "file:///android_asset/homepage.html"
     private val MAX_LOG_ENTRIES = 200
 
+    // Shared file-picker plumbing for tools that need to read an arbitrary
+    // file (File Inspector, Strings Extractor). The launcher must be
+    // registered here, before STARTED, per ActivityResultContracts rules -
+    // the tool dialogs themselves are plain objects, not Activities/Fragments,
+    // so they can't register their own. pickFile() is what they call instead.
+    private var pendingFilePickedCallback: ((android.net.Uri) -> Unit)? = null
+    private lateinit var filePickerLauncher: androidx.activity.result.ActivityResultLauncher<Array<String>>
+
+    /** Opens the system file picker; invokes [onPicked] with the chosen content Uri. */
+    fun pickFile(onPicked: (android.net.Uri) -> Unit) {
+        pendingFilePickedCallback = onPicked
+        filePickerLauncher.launch(arrayOf("*/*"))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        filePickerLauncher = registerForActivityResult(
+            androidx.activity.result.contract.ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            uri?.let { pendingFilePickedCallback?.invoke(it) }
+            pendingFilePickedCallback = null
+        }
 
         adBlocker = AdBlocker(this)
         settings = Settings(this)
@@ -94,7 +115,12 @@ class MainActivity : AppCompatActivity() {
             adBlocker = adBlocker,
             appSettings = settings,
             jsEnabled = false,
-            onUrlChanged = { url -> if (isActiveWebView(webView)) binding.urlBar.setText(url) },
+            onUrlChanged = { url ->
+                if (isActiveWebView(webView)) {
+                    binding.urlBar.setText(url)
+                    updateSiteBlockIcon()
+                }
+            },
             onLoadingChanged = { /* could wire a progress bar here */ },
             onBlockedInsecure = {
                 Toast.makeText(this, getString(R.string.insecure_connection), Toast.LENGTH_SHORT).show()
@@ -198,6 +224,7 @@ class MainActivity : AppCompatActivity() {
             if (it.startsWith("file://")) "" else it
         })
         updateJsToggleIcon()
+        updateSiteBlockIcon()
     }
 
     private fun updateJsToggleIcon() {
@@ -206,6 +233,32 @@ class MainActivity : AppCompatActivity() {
         binding.btnJsToggle.imageTintList = android.content.res.ColorStateList.valueOf(
             getColor(if (enabled) R.color.bh_accent else R.color.bh_text_dim)
         )
+    }
+
+    /** Red shield = this exact host is currently blocked (by the user or the static list). */
+    private fun updateSiteBlockIcon() {
+        val host = tabManager.activeTab()?.webView?.url?.let { android.net.Uri.parse(it).host }
+        val blocked = adBlocker.isBlocked(host)
+        binding.btnSiteBlock.imageTintList = android.content.res.ColorStateList.valueOf(
+            getColor(if (blocked) R.color.bh_danger else R.color.bh_text_dim)
+        )
+    }
+
+    private fun toggleSiteBlock() {
+        val active = tabManager.activeTab() ?: return
+        val host = active.webView.url?.let { android.net.Uri.parse(it).host }
+        if (host.isNullOrEmpty()) {
+            Toast.makeText(this, "No site loaded to block", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val nowBlocked = adBlocker.toggleHost(host)
+        updateSiteBlockIcon()
+        Toast.makeText(
+            this,
+            if (nowBlocked) "Blocked $host" else "Unblocked $host - reload to see it",
+            Toast.LENGTH_SHORT
+        ).show()
+        if (nowBlocked) active.webView.reload()
     }
 
     private fun renderTabIndicators() {
@@ -284,6 +337,9 @@ class MainActivity : AppCompatActivity() {
         binding.btnTools.setOnClickListener {
             showToolsMenu()
         }
+        binding.btnSiteBlock.setOnClickListener {
+            toggleSiteBlock()
+        }
     }
 
     private fun toggleJsForActiveTab() {
@@ -300,138 +356,189 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showToolsMenu() {
-        val available = mutableListOf<Pair<String, () -> Unit>>()
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.POSTMAN_REQUESTS)) {
-            available.add("Postman Request" to { PostmanRequestDialog.show(this) })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JS_CONSOLE)) {
-            available.add("JavaScript Console" to {
-                JavaScriptConsole.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SECURITY_SCANNER)) {
-            available.add("Security Headers" to {
-                SecurityHeaderScanner.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.COOKIE_INSPECTOR)) {
-            available.add("Cookie Inspector" to {
-                CookieInspector.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.INSPECTOR)) {
-            available.add("TLS Certificate" to {
-                TlsInspector.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DATA_TOOLKIT)) {
-            available.add("Data Toolkit" to { DataToolkit.show(this) })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JWT_DECODER)) {
-            available.add("JWT Decoder" to { JwtDecoder.show(this) })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JSON_FORMATTER)) {
-            available.add("JSON Formatter" to { JsonFormatter.show(this) })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.REGEX_TESTER)) {
-            available.add("Regex Tester" to { RegexTester.show(this) })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.STORAGE_INSPECTOR)) {
-            available.add("Storage Inspector" to {
-                StorageInspector.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.USER_AGENT_SWITCHER)) {
-            available.add("User-Agent Switcher" to {
-                UserAgentSwitcher.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.ROBOTS_FETCH)) {
-            available.add("robots.txt / sitemap.xml" to {
-                RobotsFetch.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DIFF_VIEWER)) {
-            available.add("Diff Viewer" to { DiffViewer.show(this) })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.REQUEST_TIMELINE)) {
-            available.add("Request Timeline" to {
-                RequestTimeline.show(this, tabManager.activeTab()?.requestLog ?: emptyList())
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.VIEWPORT_EMULATOR)) {
-            available.add("Viewport Emulator" to {
-                ViewportEmulator.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.ACCESSIBILITY_CHECKER)) {
-            available.add("Accessibility Scan" to {
-                AccessibilityChecker.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SCREENSHOT_CAPTURE)) {
-            available.add("Screenshot" to {
-                ScreenshotCapture.show(this, tabManager.activeTab()?.webView, downloadManager)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.BOOKMARKLET_RUNNER)) {
-            available.add("Bookmarklets" to {
-                BookmarkletRunner.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.TECH_FINGERPRINT)) {
-            available.add("Tech Fingerprint" to {
-                TechFingerprint.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.WHOIS_LOOKUP)) {
-            available.add("WHOIS Lookup" to {
-                WhoisLookup.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DNS_LOOKUP)) {
-            available.add("DNS Lookup" to {
-                DnsLookup.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.FAVICON_HASH)) {
-            available.add("Favicon Hash" to {
-                FaviconHash.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.PORT_SCANNER)) {
-            available.add("Port Scanner" to {
-                PortScanner.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DIRECTORY_BUSTER)) {
-            available.add("Directory Buster" to {
-                DirectoryBuster.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.GRAPHQL_INTROSPECTION)) {
-            available.add("GraphQL Introspection" to {
-                GraphQLIntrospection.show(this, tabManager.activeTab()?.webView)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.TOTP_GENERATOR)) {
-            available.add("TOTP Generator" to { TotpGenerator.show(this) })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.HAR_EXPORT)) {
-            available.add("Export Request Log (HAR)" to {
-                HarExport.export(this, tabManager.activeTab()?.requestLog ?: emptyList(), downloadManager)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.CASE_FILE_EXPORT)) {
-            available.add("Export Case File" to {
-                CaseFileExport.export(this, tabManager.activeTab()?.requestLog ?: emptyList(), downloadManager)
-            })
-        }
-        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SSH_TERMINAL)) {
-            available.add("SSH Terminal" to { SSHTerminal.show(this) })
+        // Six categories, same grouping as the docs site's toolbox section -
+        // keeps "what's in CTF Toolkit" etc. consistent between the app and
+        // the website. Order here is also the order categories are listed in.
+        val categories = linkedMapOf<String, MutableList<Pair<String, () -> Unit>>>(
+            "Recon" to mutableListOf(),
+            "Testing" to mutableListOf(),
+            "Dev Tools" to mutableListOf(),
+            "Data & Crypto" to mutableListOf(),
+            "CTF Toolkit" to mutableListOf(),
+            "Export" to mutableListOf()
+        )
+
+        fun add(category: String, label: String, action: () -> Unit) {
+            categories.getValue(category).add(label to action)
         }
 
-        if (available.isEmpty()) {
+        // --- Recon ---------------------------------------------------------
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SECURITY_SCANNER)) {
+            add("Recon", "Security Headers") {
+                SecurityHeaderScanner.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.INSPECTOR)) {
+            add("Recon", "TLS Certificate") {
+                TlsInspector.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.WHOIS_LOOKUP)) {
+            add("Recon", "WHOIS Lookup") {
+                WhoisLookup.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DNS_LOOKUP)) {
+            add("Recon", "DNS Lookup") {
+                DnsLookup.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.TECH_FINGERPRINT)) {
+            add("Recon", "Tech Fingerprint") {
+                TechFingerprint.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.FAVICON_HASH)) {
+            add("Recon", "Favicon Hash") {
+                FaviconHash.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.ROBOTS_FETCH)) {
+            add("Recon", "robots.txt / sitemap.xml") {
+                RobotsFetch.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+
+        // --- Testing (live target) ------------------------------------------
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.POSTMAN_REQUESTS)) {
+            add("Testing", "Postman Request") { PostmanRequestDialog.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DIRECTORY_BUSTER)) {
+            add("Testing", "Directory Buster") {
+                DirectoryBuster.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.PORT_SCANNER)) {
+            add("Testing", "Port Scanner") {
+                PortScanner.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.GRAPHQL_INTROSPECTION)) {
+            add("Testing", "GraphQL Introspection") {
+                GraphQLIntrospection.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SSH_TERMINAL)) {
+            add("Testing", "SSH Terminal") { SSHTerminal.show(this) }
+        }
+
+        // --- Dev Tools -------------------------------------------------------
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JS_CONSOLE)) {
+            add("Dev Tools", "JavaScript Console") {
+                JavaScriptConsole.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.COOKIE_INSPECTOR)) {
+            add("Dev Tools", "Cookie Inspector") {
+                CookieInspector.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.STORAGE_INSPECTOR)) {
+            add("Dev Tools", "Storage Inspector") {
+                StorageInspector.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.USER_AGENT_SWITCHER)) {
+            add("Dev Tools", "User-Agent Switcher") {
+                UserAgentSwitcher.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DIFF_VIEWER)) {
+            add("Dev Tools", "Diff Viewer") { DiffViewer.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.REQUEST_TIMELINE)) {
+            add("Dev Tools", "Request Timeline") {
+                RequestTimeline.show(this, tabManager.activeTab()?.requestLog ?: emptyList())
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.VIEWPORT_EMULATOR)) {
+            add("Dev Tools", "Viewport Emulator") {
+                ViewportEmulator.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.ACCESSIBILITY_CHECKER)) {
+            add("Dev Tools", "Accessibility Scan") {
+                AccessibilityChecker.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.SCREENSHOT_CAPTURE)) {
+            add("Dev Tools", "Screenshot") {
+                ScreenshotCapture.show(this, tabManager.activeTab()?.webView, downloadManager)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.BOOKMARKLET_RUNNER)) {
+            add("Dev Tools", "Bookmarklets") {
+                BookmarkletRunner.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+
+        // --- Data & Crypto -----------------------------------------------------
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JWT_DECODER)) {
+            add("Data & Crypto", "JWT Decoder") { JwtDecoder.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.JSON_FORMATTER)) {
+            add("Data & Crypto", "JSON Formatter") { JsonFormatter.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.REGEX_TESTER)) {
+            add("Data & Crypto", "Regex Tester") { RegexTester.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.DATA_TOOLKIT)) {
+            add("Data & Crypto", "Data Toolkit") { DataToolkit.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.TOTP_GENERATOR)) {
+            add("Data & Crypto", "TOTP Generator") { TotpGenerator.show(this) }
+        }
+
+        // --- CTF Toolkit -------------------------------------------------------
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.HASH_IDENTIFIER)) {
+            add("CTF Toolkit", "Hash Identifier") { HashIdentifier.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.HASH_CRACKER)) {
+            add("CTF Toolkit", "Hash Cracker (JtR-lite)") { HashCracker.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.HYDRA_LITE)) {
+            add("CTF Toolkit", "Credential Brute Forcer (Hydra-lite)") {
+                HydraLite.show(this, tabManager.activeTab()?.webView)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.CIPHER_SOLVER)) {
+            add("CTF Toolkit", "Cipher Solver") { CipherSolver.show(this) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.FILE_INSPECTOR)) {
+            add("CTF Toolkit", "File Inspector") { FileInspector.show(this, ::pickFile) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.STRINGS_EXTRACTOR)) {
+            add("CTF Toolkit", "Strings Extractor") { StringsExtractor.show(this, ::pickFile) }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.EXPLOIT_SHELL)) {
+            add("CTF Toolkit", "Exploit Shell (Experimental)") { ExploitShell.show(this) }
+        }
+
+        // --- Export ----------------------------------------------------------
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.HAR_EXPORT)) {
+            add("Export", "Export Request Log (HAR)") {
+                HarExport.export(this, tabManager.activeTab()?.requestLog ?: emptyList(), downloadManager)
+            }
+        }
+        if (modeManager.isFeatureAvailable(ModeManager.ModeFeature.CASE_FILE_EXPORT)) {
+            add("Export", "Export Case File") {
+                CaseFileExport.export(this, tabManager.activeTab()?.requestLog ?: emptyList(), downloadManager)
+            }
+        }
+
+        val nonEmpty = categories.filterValues { it.isNotEmpty() }
+
+        if (nonEmpty.isEmpty()) {
             AlertDialog.Builder(this)
                 .setTitle("Tools")
                 .setMessage("No tools available in Basic mode. Switch to Intermediate, Advance, or ByteBandit mode in Settings to unlock them.")
@@ -443,13 +550,39 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        AlertDialog.Builder(this)
-            .setTitle("Tools (${modeManager.getCurrentMode().displayName} mode)")
-            .setItems(available.map { it.first }.toTypedArray()) { _, index ->
-                available[index].second()
-            }
-            .setNegativeButton("Close", null)
-            .show()
+        // Single category (e.g. Intermediate mode only unlocks Postman, which
+        // lands in "Testing") - skip the category-picker step, go straight in.
+        if (nonEmpty.size == 1) {
+            val (name, tools) = nonEmpty.entries.first()
+            AlertDialog.Builder(this)
+                .setTitle("$name (${modeManager.getCurrentMode().displayName} mode)")
+                .setItems(tools.map { it.first }.toTypedArray()) { _, index -> tools[index].second() }
+                .setNegativeButton("Close", null)
+                .show()
+            return
+        }
+
+        fun showCategoryList() {
+            val categoryNames = nonEmpty.keys.toList()
+            val labels = categoryNames.map { name -> "$name (${nonEmpty.getValue(name).size})" }
+            AlertDialog.Builder(this)
+                .setTitle("Tools (${modeManager.getCurrentMode().displayName} mode)")
+                .setItems(labels.toTypedArray()) { _, index ->
+                    val categoryName = categoryNames[index]
+                    val tools = nonEmpty.getValue(categoryName)
+                    AlertDialog.Builder(this)
+                        .setTitle("$categoryName (${modeManager.getCurrentMode().displayName} mode)")
+                        .setItems((listOf("\u2039 Back to categories") + tools.map { it.first }).toTypedArray()) { _, toolIndex ->
+                            if (toolIndex == 0) showCategoryList() else tools[toolIndex - 1].second()
+                        }
+                        .setNegativeButton("Close", null)
+                        .show()
+                }
+                .setNegativeButton("Close", null)
+                .show()
+        }
+
+        showCategoryList()
     }
 
     private fun showRequestLog() {

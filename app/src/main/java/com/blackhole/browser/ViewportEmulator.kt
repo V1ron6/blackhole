@@ -29,6 +29,11 @@ object ViewportEmulator {
         val binding = DialogViewportEmulatorBinding.inflate(LayoutInflater.from(context))
         val density = context.resources.displayMetrics.density
 
+        // Let the page reflow to whatever width the container ends up at,
+        // instead of keeping its old layout/scale baked in.
+        webView.settings.useWideViewPort = true
+        webView.settings.loadWithOverviewMode = true
+
         fun applySize(size: Size?) {
             val params = webView.layoutParams as? FrameLayout.LayoutParams
                 ?: FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
@@ -42,6 +47,16 @@ object ViewportEmulator {
             }
             webView.layoutParams = params
             webView.requestLayout()
+
+            // requestLayout() is async - the resize hasn't happened yet on this
+            // frame, so scrollTo/zoomOut here would act on the OLD dimensions.
+            // Post past the layout pass, then reset scroll and re-fit zoom to
+            // the new width (this is what was "stuck" before).
+            webView.post {
+                webView.scrollTo(0, 0)
+                webView.zoomOut()
+                webView.invalidate()
+            }
         }
 
         binding.btnViewportMobile.setOnClickListener { applySize(Size(375, 667)) }

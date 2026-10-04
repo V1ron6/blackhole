@@ -43,7 +43,7 @@
 
         <ImageButton
             android:id="@+id/btnNewTab"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_plus"
@@ -52,13 +52,18 @@
 
         <ImageButton
             android:id="@+id/btnSettings"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_settings_sliders"
             android:contentDescription="Security settings"
             app:tint="@color/bh_text_dim" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bh_border" />
 
     <!-- Status row: mode indicator + session-persistence badge (badge hidden unless active) -->
     <LinearLayout
@@ -84,6 +89,12 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/mode_indicator_description">
+
+            <View
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/dot_status" />
 
             <TextView
                 android:id="@+id/modeIndicatorText"
@@ -111,6 +122,13 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/session_badge_description">
 
+            <View
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/dot_status"
+                android:backgroundTint="@color/bh_warning" />
+
             <TextView
                 android:id="@+id/sessionBadgeText"
                 android:layout_width="wrap_content"
@@ -131,6 +149,11 @@
         android:layout_weight="1" />
 
     <!-- Bottom nav bar -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bh_border" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -141,7 +164,7 @@
 
         <ImageButton
             android:id="@+id/btnBack"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -151,7 +174,7 @@
 
         <ImageButton
             android:id="@+id/btnForward"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -161,7 +184,7 @@
 
         <ImageButton
             android:id="@+id/btnHome"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -171,7 +194,7 @@
 
         <ImageButton
             android:id="@+id/btnReload"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -181,7 +204,7 @@
 
         <ImageButton
             android:id="@+id/btnJsToggle"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -191,7 +214,7 @@
 
         <ImageButton
             android:id="@+id/btnRequestLog"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -201,7 +224,7 @@
 
         <ImageButton
             android:id="@+id/btnTools"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
@@ -210,8 +233,18 @@
             app:tint="@color/bh_text_dim" />
 
         <ImageButton
+            android:id="@+id/btnSiteBlock"
+            style="@style/Widget.Blackhole.IconButton"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_shield"
+            android:contentDescription="@string/block_site"
+            app:tint="@color/bh_text_dim" />
+
+        <ImageButton
             android:id="@+id/btnClearSession"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.Blackhole.IconButton"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"

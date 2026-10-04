@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Applied app-wide via android:buttonStyle / materialButtonStyle in Theme.Blackhole,
+         so every Button in every tool dialog picks this up with no per-layout changes. -->
+    <style name="Widget.Blackhole.Button" parent="Widget.Material3.Button">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Blackhole.Button</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="rippleColor">@color/bh_ripple</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Blackhole.Button" parent="">
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <!-- Applied app-wide via android:editTextStyle in Theme.Blackhole. Replaces the default
+         platform underline look with the same filled/outlined field used by the URL bar. -->
+    <style name="Widget.Blackhole.EditText" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/bg_input_field</item>
+        <item name="android:textColor">@color/bh_text</item>
+        <item name="android:textColorHint">@color/bh_text_dim</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Applied app-wide via materialAlertDialogTheme. Rounds every AlertDialog.Builder
+         dialog (all tool dialogs use this) to match the card/pill radius used elsewhere. -->
+    <style name="ThemeOverlay.Blackhole.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Blackhole.Dialog</item>
+        <item name="android:windowTitleStyle">@style/Widget.Blackhole.Dialog.Title</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Blackhole.Dialog.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Blackhole.Dialog.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.Blackhole.Dialog.Button</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Blackhole.Dialog" parent="">
+        <item name="cornerSize">18dp</item>
+    </style>
+
+    <style name="Widget.Blackhole.Dialog.Title" parent="android:TextAppearance.Material">
+        <item name="android:textColor">@color/bh_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="Widget.Blackhole.Dialog.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/bh_accent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="rippleColor">@color/bh_ripple</item>
+    </style>
+
+    <!-- Toolbar icon buttons: circular ripple instead of the default rectangular one,
+         same touch target, used in activity_main.xml. -->
+    <style name="Widget.Blackhole.IconButton" parent="android:Widget.ImageButton">
+        <item name="android:background">@drawable/ripple_icon_circle</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+</resources>

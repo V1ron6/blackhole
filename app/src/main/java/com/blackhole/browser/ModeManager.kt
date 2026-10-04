@@ -63,9 +63,16 @@ class ModeManager(private val activity: Activity, private val settings: Settings
             ModeFeature.HAR_EXPORT -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.CASE_FILE_EXPORT -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.DIRECTORY_BUSTER -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.HASH_IDENTIFIER -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.HASH_CRACKER -> currentMode >= BrowserMode.BYTEBANDIT
+            ModeFeature.HYDRA_LITE -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.SECURITY_SCANNER -> currentMode >= BrowserMode.ADVANCE
             ModeFeature.COOKIE_INSPECTOR -> currentMode >= BrowserMode.ADVANCE
             ModeFeature.DATA_TOOLKIT -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.CIPHER_SOLVER -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.FILE_INSPECTOR -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.STRINGS_EXTRACTOR -> currentMode >= BrowserMode.ADVANCE
+            ModeFeature.EXPLOIT_SHELL -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.SSH_TERMINAL -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.ADVANCED_SETTINGS -> currentMode >= BrowserMode.BYTEBANDIT
             ModeFeature.NOTIFICATIONS -> true // Available in all modes
@@ -119,9 +126,16 @@ class ModeManager(private val activity: Activity, private val settings: Settings
         HAR_EXPORT,
         CASE_FILE_EXPORT,
         DIRECTORY_BUSTER,
+        HASH_IDENTIFIER,
+        HASH_CRACKER,
+        HYDRA_LITE,
         SECURITY_SCANNER,
         COOKIE_INSPECTOR,
         DATA_TOOLKIT,
+        CIPHER_SOLVER,
+        FILE_INSPECTOR,
+        STRINGS_EXTRACTOR,
+        EXPLOIT_SHELL,
         SSH_TERMINAL,
         ADVANCED_SETTINGS,
         NOTIFICATIONS,

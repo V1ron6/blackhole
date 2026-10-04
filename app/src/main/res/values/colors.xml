@@ -9,4 +9,10 @@
     <color name="bh_danger">#FF5470</color>
     <color name="bh_warning">#F5A623</color>
     <color name="bh_success">#2CB67D</color>
+
+    <!-- UI polish additions -->
+    <color name="bh_surface_raised">#15151F</color>
+    <color name="bh_accent_pressed">#6A47D6</color>
+    <color name="bh_on_accent">#FFFFFF</color>
+    <color name="bh_ripple">#337F5AF0</color>
 </resources>
