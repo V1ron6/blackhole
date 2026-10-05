@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bh_background"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Only use this for 2FA secrets on accounts you own - it's a testing convenience, not a replacement for a real authenticator app for accounts that matter to you."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="11sp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Base32 secret"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <EditText
+        android:id="@+id/totpSecret"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="JBSWY3DPEHPK3PXP"
+        android:textColor="@color/bh_text"
+        android:textColorHint="@color/bh_text_dim"
+        android:fontFamily="monospace"
+        android:singleLine="true"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnStartTotp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_accent"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/totpCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/bh_text"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/totpCountdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp"
+        android:gravity="center" />
+
+</LinearLayout>

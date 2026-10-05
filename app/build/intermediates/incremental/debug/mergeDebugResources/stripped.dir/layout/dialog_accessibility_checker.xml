@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bh_background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A quick structural scan (missing alt text, unlabeled inputs, missing lang attribute, etc.) - not a full WCAG audit. No contrast/color checks are included; those need real rendered pixel data this can't get from the DOM alone."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="11sp"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/a11yStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scanning\u2026"
+        android:textColor="@color/bh_text"
+        android:textSize="13sp"
+        android:layout_marginBottom="10dp" />
+
+    <LinearLayout
+        android:id="@+id/a11yResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+</LinearLayout>
+</ScrollView>

@@ -50,6 +50,9 @@ public final class ActivityMainBinding implements ViewBinding {
   public final ImageButton btnSettings;
 
   @NonNull
+  public final ImageButton btnSiteBlock;
+
+  @NonNull
   public final ImageButton btnTools;
 
   @NonNull
@@ -78,10 +81,11 @@ public final class ActivityMainBinding implements ViewBinding {
       @NonNull ImageButton btnHome, @NonNull ImageButton btnJsToggle,
       @NonNull ImageButton btnNewTab, @NonNull ImageButton btnReload,
       @NonNull ImageButton btnRequestLog, @NonNull ImageButton btnSettings,
-      @NonNull ImageButton btnTools, @NonNull LinearLayout modeIndicatorBar,
-      @NonNull TextView modeIndicatorText, @NonNull LinearLayout sessionBadge,
-      @NonNull TextView sessionBadgeText, @NonNull LinearLayout tabIndicatorContainer,
-      @NonNull EditText urlBar, @NonNull FrameLayout webViewContainer) {
+      @NonNull ImageButton btnSiteBlock, @NonNull ImageButton btnTools,
+      @NonNull LinearLayout modeIndicatorBar, @NonNull TextView modeIndicatorText,
+      @NonNull LinearLayout sessionBadge, @NonNull TextView sessionBadgeText,
+      @NonNull LinearLayout tabIndicatorContainer, @NonNull EditText urlBar,
+      @NonNull FrameLayout webViewContainer) {
     this.rootView = rootView;
     this.btnBack = btnBack;
     this.btnClearSession = btnClearSession;
@@ -92,6 +96,7 @@ public final class ActivityMainBinding implements ViewBinding {
     this.btnReload = btnReload;
     this.btnRequestLog = btnRequestLog;
     this.btnSettings = btnSettings;
+    this.btnSiteBlock = btnSiteBlock;
     this.btnTools = btnTools;
     this.modeIndicatorBar = modeIndicatorBar;
     this.modeIndicatorText = modeIndicatorText;
@@ -183,6 +188,12 @@ public final class ActivityMainBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnSiteBlock;
+      ImageButton btnSiteBlock = ViewBindings.findChildViewById(rootView, id);
+      if (btnSiteBlock == null) {
+        break missingId;
+      }
+
       id = R.id.btnTools;
       ImageButton btnTools = ViewBindings.findChildViewById(rootView, id);
       if (btnTools == null) {
@@ -232,8 +243,8 @@ public final class ActivityMainBinding implements ViewBinding {
       }
 
       return new ActivityMainBinding((LinearLayout) rootView, btnBack, btnClearSession, btnForward,
-          btnHome, btnJsToggle, btnNewTab, btnReload, btnRequestLog, btnSettings, btnTools,
-          modeIndicatorBar, modeIndicatorText, sessionBadge, sessionBadgeText,
+          btnHome, btnJsToggle, btnNewTab, btnReload, btnRequestLog, btnSettings, btnSiteBlock,
+          btnTools, modeIndicatorBar, modeIndicatorText, sessionBadge, sessionBadgeText,
           tabIndicatorContainer, urlBar, webViewContainer);
     }
     String missingId = rootView.getResources().getResourceName(id);

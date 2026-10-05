@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bh_background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Only scan hosts you own or have explicit written authorization to test. Unauthorized port scanning can violate computer misuse laws in many jurisdictions."
+        android:textColor="@color/bh_danger"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/scanHost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Host (defaults to current page's host)"
+        android:textColor="@color/bh_text"
+        android:textColorHint="@color/bh_text_dim"
+        android:singleLine="true"
+        android:layout_marginBottom="10dp" />
+
+    <CheckBox
+        android:id="@+id/scanAuthorizedCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I own this host or have explicit authorization to test it"
+        android:textColor="@color/bh_text"
+        android:textSize="13sp"
+        android:buttonTint="@color/bh_danger"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnStartScan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scan Common Ports"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_accent"
+        android:enabled="false"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:id="@+id/scanStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/scanResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:background="@color/bh_surface"
+        android:padding="10dp"
+        android:text=""
+        android:textColor="@color/bh_text"
+        android:fontFamily="monospace"
+        android:textSize="12sp"
+        android:textIsSelectable="true" />
+
+</LinearLayout>
+</ScrollView>

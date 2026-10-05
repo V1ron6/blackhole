@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="http://schemas.android.com/tools">
     <color name="bh_accent">#7F5AF0</color>
+    <color name="bh_accent_pressed">#6A47D6</color>
     <color name="bh_background">#05050A</color>
     <color name="bh_border">#23232F</color>
     <color name="bh_danger">#FF5470</color>
+    <color name="bh_on_accent">#FFFFFF</color>
+    <color name="bh_ripple">#337F5AF0</color>
     <color name="bh_success">#2CB67D</color>
     <color name="bh_surface">#0E0E16</color>
+    <color name="bh_surface_raised">#15151F</color>
     <color name="bh_text">#E6E6F0</color>
     <color name="bh_text_dim">#9B9BB0</color>
     <color name="bh_warning">#F5A623</color>
     <string name="app_name">Blackhole</string>
+    <string name="block_site">Block or unblock this site</string>
     <string name="cert_error">Certificate error — connection blocked for your safety</string>
     <string name="cert_error_ctf_bypass">Proceeding — this site\'s connection isn\'t verified.</string>
     <string name="cert_error_ctf_cancel">Go back</string>
@@ -29,12 +34,64 @@
     <string name="reload">Reload</string>
     <string name="session_badge_description">Session persistence is on - cookies and local storage are being kept. Tap to change in Settings.</string>
     <string name="url_bar_hint">Search or enter address</string>
+    <style name="ShapeAppearanceOverlay.Blackhole.Button" parent="">
+        <item name="cornerSize">12dp</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.Blackhole.Dialog" parent="">
+        <item name="cornerSize">18dp</item>
+    </style>
     <style name="Theme.Blackhole" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/bh_accent</item>
+        <item name="colorOnPrimary">@color/bh_on_accent</item>
         <item name="android:colorBackground">@color/bh_background</item>
         <item name="colorSurface">@color/bh_surface</item>
+        <item name="colorOnSurface">@color/bh_text</item>
+        <item name="colorOnBackground">@color/bh_text</item>
+        <item name="colorOutline">@color/bh_border</item>
         <item name="android:statusBarColor">@color/bh_background</item>
         <item name="android:navigationBarColor">@color/bh_background</item>
         <item name="android:windowLightStatusBar" ns1:targetApi="29">false</item>
+
+        
+        <item name="materialButtonStyle">@style/Widget.Blackhole.Button</item>
+        <item name="android:editTextStyle">@style/Widget.Blackhole.EditText</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.Blackhole.Dialog</item>
+    </style>
+    <style name="ThemeOverlay.Blackhole.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Blackhole.Dialog</item>
+        <item name="android:windowTitleStyle">@style/Widget.Blackhole.Dialog.Title</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Blackhole.Dialog.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Blackhole.Dialog.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.Blackhole.Dialog.Button</item>
+    </style>
+    <style name="Widget.Blackhole.Button" parent="Widget.Material3.Button">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Blackhole.Button</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="rippleColor">@color/bh_ripple</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+    <style name="Widget.Blackhole.Dialog.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/bh_accent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="rippleColor">@color/bh_ripple</item>
+    </style>
+    <style name="Widget.Blackhole.Dialog.Title" parent="android:TextAppearance.Material">
+        <item name="android:textColor">@color/bh_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+    <style name="Widget.Blackhole.EditText" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/bg_input_field</item>
+        <item name="android:textColor">@color/bh_text</item>
+        <item name="android:textColorHint">@color/bh_text_dim</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Widget.Blackhole.IconButton" parent="android:Widget.ImageButton">
+        <item name="android:background">@drawable/ripple_icon_circle</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 </resources>

@@ -1,5 +1,9 @@
 [
     {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_cipher_solver.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_cipher_solver.xml"
+    },
+    {
         "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_user_agent.xml",
         "source": "com.blackhole.browser.app-main-34:/layout/dialog_user_agent.xml"
     },
@@ -12,8 +16,16 @@
         "source": "com.blackhole.browser.app-main-34:/layout/dialog_graphql_introspection.xml"
     },
     {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_exploit_shell.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_exploit_shell.xml"
+    },
+    {
         "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_robots_fetch.xml",
         "source": "com.blackhole.browser.app-main-34:/layout/dialog_robots_fetch.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_hash_identifier.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_hash_identifier.xml"
     },
     {
         "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_storage_inspector.xml",
@@ -44,8 +56,16 @@
         "source": "com.blackhole.browser.app-main-34:/layout/dialog_request_timeline.xml"
     },
     {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_file_inspector.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_file_inspector.xml"
+    },
+    {
         "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_diff_viewer.xml",
         "source": "com.blackhole.browser.app-main-34:/layout/dialog_diff_viewer.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_hydra.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_hydra.xml"
     },
     {
         "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_accessibility_checker.xml",
@@ -76,6 +96,10 @@
         "source": "com.blackhole.browser.app-main-34:/layout/dialog_whois.xml"
     },
     {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_hash_cracker.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_hash_cracker.xml"
+    },
+    {
         "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/activity_settings.xml",
         "source": "com.blackhole.browser.app-main-34:/layout/activity_settings.xml"
     },
@@ -94,6 +118,10 @@
     {
         "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_screenshot.xml",
         "source": "com.blackhole.browser.app-main-34:/layout/dialog_screenshot.xml"
+    },
+    {
+        "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_strings_extractor.xml",
+        "source": "com.blackhole.browser.app-main-34:/layout/dialog_strings_extractor.xml"
     },
     {
         "merged": "com.blackhole.browser.app-mergeDebugResources-31:/layout/dialog_console.xml",

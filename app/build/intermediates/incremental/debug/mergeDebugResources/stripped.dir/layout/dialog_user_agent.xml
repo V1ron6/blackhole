@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bh_background"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Applies to this tab only, resets to default on session clear or new tab."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="11sp"
+        android:layout_marginBottom="10dp" />
+
+    <Spinner
+        android:id="@+id/uaPresetSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Custom (used when preset is &quot;Custom\u2026&quot;)"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <EditText
+        android:id="@+id/uaCustomInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mozilla/5.0 (...)"
+        android:textColor="@color/bh_text"
+        android:textColorHint="@color/bh_text_dim"
+        android:fontFamily="monospace"
+        android:textSize="11sp"
+        android:inputType="textMultiLine"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Currently sending"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/uaCurrentValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bh_surface"
+        android:padding="10dp"
+        android:text=""
+        android:textColor="@color/bh_text"
+        android:fontFamily="monospace"
+        android:textSize="11sp"
+        android:textIsSelectable="true"
+        android:layout_marginBottom="14dp" />
+
+    <Button
+        android:id="@+id/btnApplyUa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apply &amp; Reload"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/bh_accent" />
+
+</LinearLayout>

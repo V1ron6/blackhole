@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bh_background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Only attack services you own or have explicit written authorization to test. This sends real login attempts over the network and can lock out real accounts."
+        android:textColor="@color/bh_danger"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Protocol"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <Spinner
+        android:id="@+id/hydraProtocol"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:id="@+id/hydraTarget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="https://example.com/login (HTTP) or host (FTP/SSH)"
+        android:inputType="textUri"
+        android:singleLine="true"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:id="@+id/hydraPort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Port"
+        android:inputType="number"
+        android:singleLine="true"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp" />
+
+    <LinearLayout
+        android:id="@+id/hydraFormFieldsGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/hydraUserField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username field name (e.g. username)"
+            android:singleLine="true"
+            android:layout_marginBottom="10dp" />
+
+        <EditText
+            android:id="@+id/hydraPassField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password field name (e.g. password)"
+            android:singleLine="true"
+            android:layout_marginBottom="10dp" />
+
+        <EditText
+            android:id="@+id/hydraFailIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Text that appears ONLY on a failed login (e.g. &quot;invalid password&quot;)"
+            android:singleLine="true"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Usernames"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <RadioGroup
+        android:id="@+id/hydraUserListGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioHydraBuiltinUsers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Built-in list (common default usernames)"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioHydraCustomUsers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Custom (paste below, one per line)"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+    </RadioGroup>
+    <EditText
+        android:id="@+id/hydraCustomUsers"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="top"
+        android:hint="admin\nroot\n...."
+        android:fontFamily="monospace"
+        android:textSize="11sp"
+        android:inputType="textMultiLine"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Passwords"
+        android:textColor="@color/bh_text_dim"
+        android:textSize="12sp" />
+    <RadioGroup
+        android:id="@+id/hydraPassListGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioHydraBuiltinPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Built-in list (top 1000 common passwords)"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioHydraCustomPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Custom (paste below, one per line)"
+            android:textColor="@color/bh_text"
+            android:buttonTint="@color/bh_accent" />
+    </RadioGroup>
+    <EditText
+        android:id="@+id/hydraCustomPass"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="top"
+        android:hint="password1\nletmein\n...."
+        android:fontFamily="monospace"
+        android:textSize="11sp"
+        android:inputType="textMultiLine"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capped at 500 attempts per run, 5 at a time, and stops immediately on the first working credential pair - this is a small brute forcer, not a replacement for real Hydra."
+        android:textColor="@color/bh_text_dim"
+        android:textSize="11sp"
+        android:layout_marginBottom="12dp" />
+
+    <CheckBox
+        android:id="@+id/hydraAuthorizedCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I own this service or have explicit authorization to test it"
+        android:textColor="@color/bh_text"
+        android:textSize="13sp"
+        android:buttonTint="@color/bh_danger"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:id="@+id/btnStartHydra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:backgroundTint="@color/bh_accent"
+        android:enabled="false"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:id="@+id/hydraStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:id="@+id/hydraResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:background="@drawable/bg_card_section"
+        android:padding="12dp"
+        android:text=""
+        android:textColor="@color/bh_success"
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:textIsSelectable="true" />
+
+</LinearLayout>
+</ScrollView>
