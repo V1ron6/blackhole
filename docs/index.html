@@ -305,7 +305,7 @@
       <div class="principle-card">
         <div class="icon" style="background:rgba(44,182,125,0.14); color:var(--green);">/</div>
         <h3>Ads and trackers blocked</h3>
-        <p>Filtered at the network layer before a request ever goes out — not a cosmetic content-blocker running after the fact.</p>
+        <p>~72k domains filtered at the network layer before a request ever goes out — not a cosmetic content-blocker running after the fact. Tap the shield icon to block or unblock whatever site you're on, instantly.</p>
       </div>
       <div class="principle-card">
         <div class="icon" style="background:rgba(245,166,35,0.14); color:var(--amber);">!</div>
@@ -318,7 +318,7 @@
 
 <section class="toolbox" id="toolbox">
   <div class="wrap">
-    <h2>29 tools, unlocked as you go</h2>
+    <h2>36 tools, unlocked as you go</h2>
     <div class="tool-grid">
       <div class="tool-card">
         <div class="cat">Recon</div>
@@ -358,6 +358,18 @@
           <li><b>Regex tester</b> — live match list with capture groups, against real sample text</li>
           <li><b>Base64 / hash toolkit</b> — encode, decode, MD5 through SHA-512, fully offline</li>
           <li><b>TOTP generator</b> — standard RFC 6238 codes for testing your own 2FA</li>
+        </ul>
+      </div>
+      <div class="tool-card">
+        <div class="cat">CTF toolkit</div>
+        <ul>
+          <li><b>Hash identifier</b> — guesses MD5/NTLM/bcrypt/crypt and more from length, charset, prefix</li>
+          <li><b>Hash cracker (JtR-lite)</b> — dictionary + rule mutations, fully offline, no lookup service</li>
+          <li><b>Credential brute forcer (Hydra-lite)</b> — HTTP Basic/Form, FTP, SSH, capped and authorization-gated</li>
+          <li><b>Cipher solver</b> — hex/base64/XOR auto-decode, Caesar and Vigenère frequency analysis</li>
+          <li><b>File inspector</b> — magic-byte type detection, flags a disguised file extension on sight</li>
+          <li><b>Strings extractor</b> — pulls printable text out of any file, regex filter included</li>
+          <li><b>Exploit shell</b> <i>(experimental)</i> — a use/set/run console with recon-only modules; no real exploit code, by design</li>
         </ul>
       </div>
     </div>
@@ -515,14 +527,14 @@
     advance: {
       color: '#f5a623',
       cmd: 'blackhole --mode advance',
-      tools: ['Everything in Intermediate', 'JS console, security scanner, TLS inspector', 'JSON / regex / diff / data tools', 'Screenshot, bookmarklets, tech fingerprint'],
-      count: '<b>18</b> tools unlocked'
+      tools: ['Everything in Intermediate', 'JS console, security scanner, TLS inspector', 'JSON / regex / diff / data tools', 'Screenshot, bookmarklets, tech fingerprint', 'Cipher solver, file inspector, strings extractor'],
+      count: '<b>21</b> tools unlocked'
     },
     bytebandit: {
       color: '#ff5470',
       cmd: 'blackhole --mode bytebandit',
-      tools: ['Everything in Advance', 'SSH terminal (key-pinned)', 'WHOIS, DNS, port scanner, directory buster', 'GraphQL introspection, TOTP, HAR export'],
-      count: '<b>10</b> more tools unlocked · <b>29</b> total'
+      tools: ['Everything in Advance', 'SSH terminal (key-pinned)', 'WHOIS, DNS, port scanner, directory buster', 'GraphQL introspection, TOTP, HAR export', 'Hash identifier, hash cracker, Hydra-lite', 'Exploit shell (experimental, recon-only)'],
+      count: '<b>14</b> more tools unlocked · <b>36</b> total'
     }
   };
 

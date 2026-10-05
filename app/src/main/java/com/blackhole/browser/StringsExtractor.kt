@@ -86,7 +86,7 @@ object StringsExtractor {
                 BufferedInputStream(raw, READ_BUFFER).use { stream ->
                     val current = StringBuilder()
                     val buffer = ByteArray(READ_BUFFER)
-                    var read: Int
+                    var read = 0
                     fun flush() {
                         if (current.length >= minLen) {
                             val s = current.toString()

@@ -48,7 +48,7 @@ object HashCracker {
         HashType("SHA-512") { c, t -> digestHex("SHA-512", c).equals(t, ignoreCase = true) },
         HashType("NTLM") { c, t -> ntlmHex(c).equals(t, ignoreCase = true) },
         HashType("bcrypt") { c, t ->
-            try { OpenBSDBCrypt.doCheckPassword(t, c.toCharArray()) } catch (_: Exception) { false }
+            try { OpenBSDBCrypt.checkPassword(t, c.toCharArray()) } catch (_: Exception) { false }
         }
     )
 
