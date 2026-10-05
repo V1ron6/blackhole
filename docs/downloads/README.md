@@ -2,6 +2,13 @@
 
 Where built APKs go, and how the landing page links to them.
 
+There are now TWO places a new version needs adding: the main page's
+"Previous versions" list (below), and `downloads/index.html` — a standalone
+releases page that renders when someone browses to `/downloads/` directly
+(GitHub Pages 404s on a bare directory otherwise). Its structure mirrors the
+list below: copy a `<div class="release">` block, bump the version/label, and
+move the `latest` class to whichever one is newest.
+
 ## Latest version (main download button)
 
 ```bash
